@@ -35,19 +35,23 @@
 			"binding": "DB",
 			"migrations_table": "_hub_migrations",
 			"migrations_dir": ".output/server/db/migrations/sqlite/",
+			"database_name": "nuxt-edge-template-db"
 		}
 	],
 	"kv_namespaces": [
 		{
 			"binding": "KV",
+			"id": "nuxt-edge-template-kv"
 		},
 		{
 			"binding": "CACHE",
+			"id": "nuxt-edge-template-cache"
 		}
 	],
 	"r2_buckets": [
 		{
 			"binding": "BLOB",
+			"bucket_name": "nuxt-edge-template-blob",
 		}
 	],
 	/**
@@ -56,9 +60,9 @@
 	 * Note: Use secrets to store sensitive data.
 	 * https://developers.cloudflare.com/workers/configuration/secrets/
 	 */
-	"vars": {
-		"MY_VARIABLE": "production_value"
-	}
+	// "vars": {
+	// 	"MY_VARIABLE": "production_value"
+	// }
 	/**
 	 * Service Bindings (communicate between multiple Workers)
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings

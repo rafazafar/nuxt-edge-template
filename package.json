@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@libsql/client": "^0.17.0",
-    "@nuxt/hints": "1.0.0",
     "@nuxt/scripts": "0.13.2",
     "@nuxt/test-utils": "4.0.0",
     "@nuxt/ui": "4.5.1",
@@ -28,10 +27,10 @@
     "drizzle-kit": "^0.31.10",
     "drizzle-orm": "^0.45.1",
     "nuxt": "^4.4.2",
-    "nuxt-nodemailer": "1.1.4"
+    "nuxt-nodemailer": "1.1.4",
+    "tailwindcss": "^4.2.1"
   },
   "devDependencies": {
-    "@nuxt/devtools": "3.2.4",
     "@vue/test-utils": "^2.4.6",
     "happy-dom": "^20.8.4",
     "vitest": "^4.1.0",

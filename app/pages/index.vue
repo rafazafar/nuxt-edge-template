@@ -72,7 +72,6 @@ const terminalLines = [
   <div>
     <!-- Hero -->
     <UContainer class="py-20 sm:py-28">
-          <UColorModeSwitch />
       <div class="grid lg:grid-cols-2 gap-16 items-center">
         <!-- Left: text -->
         <div class="flex flex-col gap-7">

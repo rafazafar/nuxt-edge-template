@@ -1,13 +1,4 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from "@nuxt/ui";
-
-const navItems: NavigationMenuItem[] = [
-  { label: "Database", to: "/db", icon: "i-lucide-database" },
-  { label: "Blob", to: "/blob", icon: "i-lucide-image" },
-  { label: "KV Store", to: "/kv", icon: "i-lucide-key-round" },
-  { label: "Cache", to: "/cache", icon: "i-lucide-zap" },
-];
-
 const colorMode = useColorMode();
 const isDark = computed(() => colorMode.value === "dark");
 </script>
@@ -55,72 +46,12 @@ const isDark = computed(() => colorMode.value === "dark");
     />
 
     <!-- ─── Nav ─── -->
-    <UHeader
-      :ui="{
-        root: 'dark:bg-[#05050e]/80 bg-[#f7f6f3]/80 dark:border-white/5 border-black/8 backdrop-blur-xl',
-      }"
-    >
-      <template #title>
-        <NuxtLink to="/" class="flex items-center gap-2.5">
-          <UIcon name="i-lucide-layers" class="size-5 text-primary" />
-          <span class="font-bold text-base tracking-tight">NuxtEdge</span>
-          <UBadge
-            label="template"
-            variant="subtle"
-            size="sm"
-            class="uppercase font-mono text-[10px]"
-          />
-        </NuxtLink>
-      </template>
-
-      <UNavigationMenu :items="navItems" />
-
-      <template #right>
-        <UColorModeButton>
-          <template #fallback>
-            <UButton loading variant="ghost" color="neutral" />
-          </template>
-        </UColorModeButton>
-      </template>
-
-      <template #body>
-        <UNavigationMenu
-          :items="navItems"
-          orientation="vertical"
-          class="-mx-2.5"
-        />
-      </template>
-    </UHeader>
+    <Navbar/>
 
     <UMain>
       <slot />
     </UMain>
 
-    <UFooter :ui="{ root: 'dark:border-white/5 border-black/8' }">
-      <template #left>
-        <p class="text-sm text-zinc-500 dark:text-zinc-500 font-mono">
-          Built with <span class="text-primary">NuxtHub</span> · Running at the
-          edge
-        </p>
-      </template>
-      <template #right>
-        <UButton
-          icon="i-lucide-github"
-          color="neutral"
-          variant="ghost"
-          to="https://github.com/rafazafar/nuxt-edge-template"
-          target="_blank"
-          size="sm"
-        />
-        <UButton
-          label="Docs"
-          color="neutral"
-          variant="ghost"
-          to="https://hub.nuxt.com/docs/getting-started"
-          target="_blank"
-          size="sm"
-        />
-      </template>
-    </UFooter>
+    <Footer/>
   </div>
 </template>

@@ -3,15 +3,13 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   modules: [
-    "@nuxthub/core",
-    "@nuxtjs/seo",
+    "@nuxt/scripts",
     "@nuxt/test-utils",
     "@nuxt/ui",
-    "@nuxt/hints",
-    "@nuxt/scripts",
-    "nuxt-nodemailer",
+    "@nuxthub/core",
     "@nuxtjs/kinde",
-    "@nuxt/devtools"
+    "@nuxtjs/seo",
+    "nuxt-nodemailer",
     
   ],
   devtools: { enabled: true },
@@ -26,6 +24,10 @@ export default defineNuxtConfig({
     kv: true,
     blob: true,
     cache: true,
+  },
+
+  ui: {
+    colorMode: true
   },
 
   vite: {
