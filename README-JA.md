@@ -1,208 +1,122 @@
 # NuxtEdge
 
-本番運用を想定した Nuxt 4 のエッジ向けスターターテンプレートです。データベース、Blob ストレージ、KV、キャッシュ、i18n、メール、AI 支援ワークフローをまとめて使い始められます。
+NuxtEdge は、便利な機能が最初から入った Nuxt アプリのスタータープロジェクトです。まずはローカルで起動して、デモページを開いて、分かりやすいファイルから少しずつ編集を始めることを想定しています。
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/rafazafar/nuxt-serverless-template)
 
-## 概要
+## このテンプレートでできること
 
-このリポジトリは、Nuxt のエッジアプリを空の状態から組み立てなくてもすぐ動かせるようにした、フルスタックのテンプレートです。主な構成は次の通りです。
-
-- Nuxt 4 + Nitro
-- Nuxt UI 4
-- NuxtHub による DB / KV / Blob / Cache
-- Cloudflare Workers 向けの標準設定
-- `nuxt-nodemailer` によるメール送信
-- `@nuxtjs/i18n` による多言語化
-- `@nuxtjs/seo` による SEO 基盤
-- Codex 用の Nuxt / NuxtHub Skill をプリインストール
-
-## 含まれている機能
-
-| 領域 | 内容 | デモ / ドキュメント |
-|---|---|---|
-| Database | Drizzle + SQLite の CRUD 例、マイグレーション | `/docs/db` |
-| Blob storage | 画像アップロード、一覧、削除 | `/docs/blob` |
-| KV | KV を使ったリダイレクトルール編集 | `/docs/kv` |
-| Cache | キャッシュの hit / miss が見える API デモ | `/docs/cache` |
-| Email | `nuxt-nodemailer` の設定ガイド | `/docs/email` |
-| i18n | 日本語 + 英語のロケール構成 | `/docs/i18n` |
-| AI DX | Codex 向けのワークフローとプロンプト例 | `/docs/agents` |
-
-## 技術スタック
-
-| レイヤー | パッケージ / ツール |
-|---|---|
-| フレームワーク | `nuxt` |
-| UI | `@nuxt/ui`, Tailwind CSS |
-| エッジ実行基盤 | Nitro `cloudflare_module` preset |
-| DB / ストレージ | `@nuxthub/core` |
-| ORM | `drizzle-orm` |
-| メール | `nuxt-nodemailer` |
-| SEO | `@nuxtjs/seo` |
-| i18n | `@nuxtjs/i18n` |
-| テスト | `vitest`, `@nuxt/test-utils` |
+- すぐに起動できる Nuxt 4 アプリ
+- Database、Blob、KV、Cache、Email、i18n、AI workflow のデモページ
+- 英語と日本語のロケール
+- Cloudflare 向けのデフォルト設定
+- 主要デモへ移動しやすいホームページ
 
 ## クイックスタート
 
-### 前提条件
+### ここから始める
 
-- Node.js 20 以上
-- `pnpm`
-- Cloudflare Workers / D1 / KV / R2 を使うための Cloudflare アカウント
-- 必要なら Vercel デプロイ用の Vercel アカウント
-
-### インストール
+1. 依存関係をインストールします
 
 ```bash
 pnpm install
 ```
 
-### ローカル起動
+2. アプリを起動します
 
 ```bash
 pnpm dev
 ```
 
-主な確認先:
+3. `http://localhost:3000` を開きます
 
-- ホーム: `http://localhost:3000/`
-- Database デモ: `http://localhost:3000/docs/db`
-- Blob デモ: `http://localhost:3000/docs/blob`
-- KV デモ: `http://localhost:3000/docs/kv`
-- Cache デモ: `http://localhost:3000/docs/cache`
+4. ホームページから各デモページを順番に見ます
 
-## スクリプト
+## 最初にブラウザで開くページ
 
-| コマンド | 用途 |
+| ページ | 最初に見る理由 |
+|---|---|
+| `/` | ホームページと主要機能カードを確認できます |
+| `/docs/db` | データベースの追加・編集デモを試せます |
+| `/docs/blob` | 画像のアップロードと削除を試せます |
+| `/docs/kv` | リダイレクトルールの保存方法を見られます |
+| `/docs/cache` | シンプルなキャッシュ動作を確認できます |
+| `/docs/email` | メール設定の場所を確認できます |
+| `/docs/i18n` | 英語と日本語の管理方法を確認できます |
+| `/docs/agents` | Codex / AI 補助の使い方を確認できます |
+
+## 各デモページで分かること
+
+| Route | 学べること |
+|---|---|
+| `/docs/db` | データベースを使った基本的な CRUD |
+| `/docs/blob` | ファイルのアップロード、一覧、削除 |
+| `/docs/kv` | KV を使ったキー・バリュー管理 |
+| `/docs/cache` | キャッシュされたレスポンスの動き |
+| `/docs/email` | メール設定をどこで変更するか |
+| `/docs/i18n` | 翻訳ファイルをどこで編集するか |
+| `/docs/agents` | Codex skills を使った作業の進め方 |
+
+## 最初に編集しやすいファイル
+
+| ファイル / フォルダ | 何を変えるときに使うか |
+|---|---|
+| [`app/pages/index.vue`](/Users/rafazafar/dev/nuxt-serverless-template/app/pages/index.vue) | ホームページや機能カードの内容を変える |
+| [`app/pages/docs/`](/Users/rafazafar/dev/nuxt-serverless-template/app/pages/docs) | 各デモ / ドキュメントページを変える |
+| [`i18n/locales/en.json`](/Users/rafazafar/dev/nuxt-serverless-template/i18n/locales/en.json) | 英語テキストを変える |
+| [`i18n/locales/ja.json`](/Users/rafazafar/dev/nuxt-serverless-template/i18n/locales/ja.json) | 日本語テキストを変える |
+| [`nuxt.config.ts`](/Users/rafazafar/dev/nuxt-serverless-template/nuxt.config.ts) | ロケール、メール設定、module など全体設定を変える |
+
+## よく使うコマンド
+
+| コマンド | 内容 |
 |---|---|
 | `pnpm dev` | ローカル開発サーバーを起動 |
 | `pnpm build` | アプリをビルド |
-| `pnpm typecheck` | Nuxt の型チェック |
-| `pnpm test` | Vitest 全体を実行 |
+| `pnpm typecheck` | 型チェックを実行 |
+| `pnpm test` | テストを実行 |
 | `pnpm test:unit` | unit テストのみ実行 |
 | `pnpm test:nuxt` | Nuxt テストのみ実行 |
-| `pnpm deploy-cloudflare` | ビルド、Worker デプロイ、D1 マイグレーション適用 |
+| `pnpm deploy-cloudflare` | Cloudflare へデプロイ |
 | `pnpm deploy-vercel` | Vercel CLI でデプロイ |
 
-## 設定メモ
+## 簡単なデプロイ概要
 
-### Nuxt modules
+- Cloudflare に出すなら `pnpm deploy-cloudflare`
+- Vercel に出すなら `pnpm deploy-vercel`
+- メール機能を使う前に [`nuxt.config.ts`](/Users/rafazafar/dev/nuxt-serverless-template/nuxt.config.ts) の SMTP 例を実値に置き換えます
+- まずはローカルで動かして理解してからデプロイするのがおすすめです
 
-[`nuxt.config.ts`](/Users/rafazafar/dev/nuxt-serverless-template/nuxt.config.ts) では次の module を有効化しています。
+## 短い技術概要
 
-- `@nuxt/scripts`
-- `@nuxt/test-utils`
-- `@nuxt/ui`
-- `@nuxthub/core`
-- `@nuxtjs/seo`
-- `nuxt-nodemailer`
-- `@nuxtjs/i18n`
+### 主な機能
 
-### NuxtHub の有効機能
-
-現在の `hub` 設定:
-
-- `db: 'sqlite'`
-- `kv: true`
-- `blob: true`
-- `cache: true`
-
-### i18n
-
-現在の構成:
-
-- デフォルトロケール: `ja`
-- 追加ロケール: `en`
-- 戦略: `prefix_except_default`
-
-翻訳ファイル:
-
-- [`i18n/locales/ja.json`](/Users/rafazafar/dev/nuxt-serverless-template/i18n/locales/ja.json)
-- [`i18n/locales/en.json`](/Users/rafazafar/dev/nuxt-serverless-template/i18n/locales/en.json)
-
-### Email
-
-[`nuxt.config.ts`](/Users/rafazafar/dev/nuxt-serverless-template/nuxt.config.ts) に SMTP の雛形が入っています。実運用前に `host`、`user`、`pass` を実値へ差し替えてください。
-
-## Cloudflare デプロイ
-
-このリポジトリは Cloudflare を標準ターゲットにしています。
-
-### [`wrangler.jsonc`](/Users/rafazafar/dev/nuxt-serverless-template/wrangler.jsonc) のバインディング
-
-| Binding | 役割 |
+| 機能 | 含まれているか |
 |---|---|
-| `DB` | D1 データベース |
-| `KV` | KV namespace |
-| `CACHE` | Cache namespace |
-| `BLOB` | R2 bucket |
+| Database デモ | Yes |
+| Blob / ファイルアップロードデモ | Yes |
+| KV デモ | Yes |
+| Cache デモ | Yes |
+| Email ガイド | Yes |
+| i18n | 英語 + 日本語 |
 
-### デプロイ
+### 主なフォルダ
 
-```bash
-pnpm deploy-cloudflare
-```
-
-このスクリプトは次を行います。
-
-1. Cloudflare 用の Nitro preset でビルド
-2. Wrangler で Worker をデプロイ
-3. リモート D1 マイグレーションを適用
-
-## Vercel デプロイ
-
-Vercel 向けのスクリプトも用意しています。
-
-```bash
-pnpm deploy-vercel
-```
-
-Cloudflare 以外に出す場合は、使用する DB / ストレージのバインディングや provider 設定を見直してください。
-
-## ディレクトリ構成
-
-| パス | 役割 |
+| フォルダ | 役割 |
 |---|---|
-| [`app/pages/index.vue`](/Users/rafazafar/dev/nuxt-serverless-template/app/pages/index.vue) | ホームページ |
-| [`app/pages/docs/`](/Users/rafazafar/dev/nuxt-serverless-template/app/pages/docs) | 機能ごとのデモ / ドキュメント |
-| [`server/api/`](/Users/rafazafar/dev/nuxt-serverless-template/server/api) | デモで使う API ルート |
-| [`server/db/schema.sqlite.ts`](/Users/rafazafar/dev/nuxt-serverless-template/server/db/schema.sqlite.ts) | SQLite スキーマ |
-| [`server/db/migrations/sqlite/`](/Users/rafazafar/dev/nuxt-serverless-template/server/db/migrations/sqlite) | DB マイグレーション |
-| [`server/middleware/redirects.ts`](/Users/rafazafar/dev/nuxt-serverless-template/server/middleware/redirects.ts) | KV ベースのリダイレクト middleware |
+| [`app/pages/`](/Users/rafazafar/dev/nuxt-serverless-template/app/pages) | ルートとページ |
+| [`app/pages/docs/`](/Users/rafazafar/dev/nuxt-serverless-template/app/pages/docs) | デモ / ドキュメントページ |
+| [`server/api/`](/Users/rafazafar/dev/nuxt-serverless-template/server/api) | デモ用 API ルート |
+| [`server/db/`](/Users/rafazafar/dev/nuxt-serverless-template/server/db) | データベーススキーマとマイグレーション |
 | [`i18n/locales/`](/Users/rafazafar/dev/nuxt-serverless-template/i18n/locales) | 翻訳ファイル |
-| [`skills/`](/Users/rafazafar/dev/nuxt-serverless-template/skills) | インストール済み Codex Skill |
 
-## AI / Codex ワークフロー
+### 主なツール
 
-このリポジトリは Codex で扱いやすいようにしてあります。
-
-- `postinstall` で Nuxt / NuxtHub Skill を導入
-- `/docs/agents` に実践的なプロンプト例あり
-- ホームや docs は機能単位で拡張しやすい構成
-
-このリポジトリで有効なプロンプト例:
-
-- `/nuxt create a new page and add it to the navbar`
-- `/nuxthub add a new database-backed feature with an API route`
-- `/nuxt /nuxthub improve the blob demo UI without breaking uploads`
-
-## 現在の状態
-
-README 変更とは別に、現時点で typecheck 上の既存課題があります。
-
-- `app/components/MessagesPanel.vue`
-- `app/components/RedirectsPanel.vue`
-
-`pnpm typecheck` を厳密なリリース条件にするなら、先にこの 2 箇所を直すのが安全です。
-
-## 参考ドキュメント
-
-- Nuxt: [https://nuxt.com/docs](https://nuxt.com/docs)
-- NuxtHub: [https://hub.nuxt.com](https://hub.nuxt.com)
-- Nitro cache: [https://v2.nitro.build/guide/cache](https://v2.nitro.build/guide/cache)
-- Wrangler: [https://developers.cloudflare.com/workers/wrangler/](https://developers.cloudflare.com/workers/wrangler/)
-
-## ライセンス
-
-公開テンプレートとして配布する場合は、ここに利用するライセンスを追記してください。
+| 領域 | ツール |
+|---|---|
+| アプリ本体 | Nuxt 4 |
+| UI | Nuxt UI |
+| ストレージ機能 | NuxtHub |
+| Email | `nuxt-nodemailer` |
+| SEO | `@nuxtjs/seo` |
+| テスト | Vitest |
