@@ -58,9 +58,10 @@ const features = computed(() => [
     title: 'Email',
     description: 'Send transactional email from the edge with a provider-ready foundation for notifications and workflows.',
     icon: 'i-lucide-mail',
-    badge: 'Planned',
+    to: '/email',
+    badge: 'Ready',
     code: 'nodemailer.sendMail(...)',
-    disabled: true,
+    accent: 'info'
   },
   {
     title: 'AI DX',

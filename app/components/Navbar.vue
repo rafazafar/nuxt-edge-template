@@ -46,6 +46,7 @@ const navItems: NavigationMenuItem[] = [
   { label: "Blob", to: "/blob", icon: "i-lucide-image" },
   { label: "KV Store", to: "/kv", icon: "i-lucide-key-round" },
   { label: "Cache", to: "/cache", icon: "i-lucide-zap" },
+  { label: "Email", to: "/email", icon: "i-lucide-mail" },
   { label: "I18n", to: "/i18n", icon: "i-lucide-languages" },
 ];
 </script>

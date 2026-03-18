@@ -1,60 +1,81 @@
 <script setup lang="ts">
-definePageMeta({ layout: 'default' })
-useSeoMeta({ title: 'Database · NuxtEdge ' })
+definePageMeta({ layout: "default" });
+useSeoMeta({ title: "Database · NuxtEdge " });
 
-const toast = useToast()
-const newMessage = ref('')
-const editingId = ref<number | null>(null)
-const editText = ref('')
-const submitting = ref(false)
+const toast = useToast();
+const newMessage = ref("");
+const editingId = ref<number | null>(null);
+const editText = ref("");
+const submitting = ref(false);
 
-const { data: messages, refresh } = await useFetch('/api/messages')
+const { data: messages, refresh } = await useFetch("/api/messages");
 
 async function sendMessage() {
-  if (!newMessage.value.trim() || submitting.value) return
-  submitting.value = true
-  await $fetch('/api/messages', {
-    method: 'POST',
+  if (!newMessage.value.trim() || submitting.value) return;
+  submitting.value = true;
+  await $fetch("/api/messages", {
+    method: "POST",
     body: { text: newMessage.value.trim() },
-  })
-  newMessage.value = ''
-  await refresh()
-  submitting.value = false
-  toast.add({ title: 'Message saved', icon: 'i-lucide-check', color: 'success' })
+  });
+  newMessage.value = "";
+  await refresh();
+  submitting.value = false;
+  toast.add({
+    title: "Message saved",
+    icon: "i-lucide-check",
+    color: "success",
+  });
 }
 
 async function deleteMessage(id: number) {
-  await $fetch('/api/messages', { method: 'DELETE', body: { messageID: id } })
-  await refresh()
-  toast.add({ title: 'Message deleted', icon: 'i-lucide-trash', color: 'neutral' })
+  await $fetch("/api/messages", { method: "DELETE", body: { messageID: id } });
+  await refresh();
+  toast.add({
+    title: "Message deleted",
+    icon: "i-lucide-trash",
+    color: "neutral",
+  });
 }
 
 function startEdit(msg: any) {
-  editingId.value = msg.id
-  editText.value = msg.text
+  editingId.value = msg.id;
+  editText.value = msg.text;
 }
 
 async function saveEdit() {
-  if (!editText.value.trim()) return
-  await $fetch('/api/messages', {
-    method: 'PUT',
+  if (!editText.value.trim()) return;
+  await $fetch("/api/messages", {
+    method: "PUT",
     body: { messageID: editingId.value, text: editText.value.trim() },
-  })
-  editingId.value = null
-  await refresh()
-  toast.add({ title: 'Message updated', icon: 'i-lucide-pencil', color: 'success' })
+  });
+  editingId.value = null;
+  await refresh();
+  toast.add({
+    title: "Message updated",
+    icon: "i-lucide-pencil",
+    color: "success",
+  });
 }
 
 function formatTime(ts: number) {
-  if (!ts) return '—'
-  return new Date(ts).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+  if (!ts) return "—";
+  return new Date(ts).toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
 const schema = [
-  { col: 'id', type: 'INTEGER', meta: 'PRIMARY KEY · AUTOINCREMENT' },
-  { col: 'text', type: 'TEXT', meta: 'NOT NULL' },
-  { col: 'created_at', type: 'INTEGER', meta: 'NOT NULL' },
-]
+  { col: "id", type: "INTEGER", meta: "PRIMARY KEY · AUTOINCREMENT" },
+  { col: "text", type: "TEXT", meta: "NOT NULL" },
+  { col: "created_at", type: "INTEGER", meta: "NOT NULL" },
+];
+
+const md = `
+const rows = await db.select().from(tables.messages);
+`;
 </script>
 
 <template>
@@ -63,13 +84,20 @@ const schema = [
     <div class="mb-10">
       <div class="flex items-center gap-2 mb-4">
         <UIcon name="i-lucide-database" class="size-5 text-primary" />
-        <span class="font-mono text-xs text-primary uppercase tracking-widest">hub:db</span>
+        <span class="font-mono text-xs text-primary uppercase tracking-widest"
+          >hub:db</span
+        >
       </div>
-      <h1 class="text-4xl font-black tracking-tight text-highlighted mb-3">Database</h1>
+      <h1 class="text-4xl font-black tracking-tight text-highlighted mb-3">
+        Database
+      </h1>
       <p class="text-muted text-base leading-relaxed mb-5">
-        Full CRUD on a SQLite database at the edge! With support for any SQL database.
+        Full CRUD on a SQLite database at the edge! With support for any SQL
+        database.
       </p>
-      <div class="rounded-lg border dark:border-zinc-800 border-zinc-200 border-l-2 border-l-primary dark:bg-zinc-900 bg-zinc-100 px-4 py-3 font-mono text-sm leading-loose text-muted">
+      <div
+        class="rounded-lg border dark:border-zinc-800 border-zinc-200 border-l-2 border-l-primary dark:bg-zinc-900 bg-zinc-100 px-4 py-3 font-mono text-sm leading-loose text-muted"
+      >
         <!-- <span class="text-muted text-xs">./server/api/messages.get.ts</span><br> -->
         <span class="text-violet-400">const</span> rows = <span class="text-violet-400">await</span> db.<span class="text-primary">select</span>().<span class="text-primary">from</span>(<span class="text-amber-400">tables.messages</span>)
       </div>
@@ -89,8 +117,7 @@ const schema = [
         label="Send"
         trailing-icon="i-lucide-send"
         size="lg"
-        :loading="submitting"
-        :disabled="!newMessage.trim()"
+        :disabled="!newMessage.trim() || submitting"
         @click="sendMessage"
       />
     </div>
@@ -113,17 +140,37 @@ const schema = [
               @keydown.esc="editingId = null"
             />
             <div class="flex gap-2">
-              <UButton label="Save" size="sm" icon="i-lucide-check" @click="saveEdit" />
-              <UButton label="Cancel" size="sm" color="neutral" variant="ghost" @click="editingId = null" />
+              <UButton
+                label="Save"
+                size="sm"
+                icon="i-lucide-check"
+                @click="saveEdit"
+              />
+              <UButton
+                label="Cancel"
+                size="sm"
+                color="neutral"
+                variant="ghost"
+                @click="editingId = null"
+              />
             </div>
           </template>
 
           <template v-else>
             <div class="flex items-center gap-2 mb-2">
-              <UBadge :label="`#${msg.id}`" variant="subtle" size="sm" class="font-mono" />
-              <span class="font-mono text-[11px] text-muted">{{ formatTime((msg as any).createdAt || (msg as any).created_at) }}</span>
+              <UBadge
+                :label="`#${msg.id}`"
+                variant="subtle"
+                size="sm"
+                class="font-mono"
+              />
+              <span class="font-mono text-[11px] text-muted">{{
+                formatTime((msg as any).createdAt || (msg as any).created_at)
+              }}</span>
             </div>
-            <p class="text-highlighted text-sm mb-3 leading-relaxed">{{ msg.text }}</p>
+            <p class="text-highlighted text-sm mb-3 leading-relaxed">
+              {{ msg.text }}
+            </p>
             <USeparator class="mb-3" />
             <div class="flex gap-2">
               <UButton
@@ -162,11 +209,18 @@ const schema = [
           <span class="font-mono text-sm text-default">
             Schema: <span class="text-primary">messages</span>
           </span>
-          <UBadge label="SQLite · Drizzle ORM" variant="subtle" size="sm" class="font-mono text-[10px]" />
+          <UBadge
+            label="SQLite · Drizzle ORM"
+            variant="subtle"
+            size="sm"
+            class="font-mono text-[10px]"
+          />
         </div>
       </template>
       <div class="divide-y dark:divide-zinc-800 divide-zinc-200">
-        <div class="grid grid-cols-3 gap-3 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-dimmed">
+        <div
+          class="grid grid-cols-3 gap-3 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-dimmed"
+        >
           <span>column</span><span>type</span><span>constraints</span>
         </div>
         <div
@@ -184,7 +238,16 @@ const schema = [
 </template>
 
 <style scoped>
-.fade-enter-active, .fade-leave-active { transition: all 0.2s ease; }
-.fade-enter-from { opacity: 0; transform: translateY(-6px); }
-.fade-leave-to { opacity: 0; transform: translateY(6px); }
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.2s ease;
+}
+.fade-enter-from {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(6px);
+}
 </style>

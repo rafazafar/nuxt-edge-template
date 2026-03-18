@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     "@nuxthub/core",
     "@nuxtjs/seo",
     "nuxt-nodemailer",
-    "@nuxtjs/i18n",
+    "@nuxtjs/i18n"
   ],
   devtools: { enabled: true },
   compatibilityDate: "2026-03-18",
