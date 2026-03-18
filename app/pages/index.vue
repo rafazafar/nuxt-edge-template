@@ -1,9 +1,16 @@
 <script setup lang="ts">
+import type { ButtonProps } from '@nuxt/ui'
+
 definePageMeta({ layout: 'default' })
 
+const { t, tm, rt } = useI18n()
+
+const pageTitle = computed(() => t('home.seo.title'))
+const pageDescription = computed(() => t('home.seo.description'))
+
 useSeoMeta({
-  title: 'NuxtEdge  — Build on the Edge',
-  description: 'A production-ready Nuxt template with SQLite database, blob storage, KV store, and caching — all running at the edge.',
+  title: pageTitle,
+  description: pageDescription,
 })
 
 const { data: messages } = await useFetch('/api/messages')
@@ -13,86 +20,136 @@ const FeatureLink = resolveComponent('NuxtLink')
 const messageCount = computed(() => messages.value?.length ?? 0)
 const imageCount = computed(() => (images.value as any)?.length ?? 0)
 
+type FeatureStatus = 'explore' | 'ready' | 'comingSoon'
+
+type TerminalLine = {
+  type: 'prompt' | 'muted' | 'green' | 'empty'
+  text?: string
+}
+
+type StatCopy = {
+  label: string
+}
+
 const features = computed(() => [
   {
-    title: 'Database',
-    description: 'Full SQLite at the edge with Drizzle ORM. Zero cold starts, full CRUD, automatic migrations.',
+    key: 'db',
+    title: t('home.features.db.title'),
+    description: t('home.features.db.description'),
     icon: 'i-lucide-database',
     to: '/docs/db',
-    badge: `${messageCount.value} rows`,
+    badge: t('home.features.db.badge', { count: messageCount.value }),
     code: 'db.select().from(tables.messages)',
+    status: 'explore' as FeatureStatus,
   },
   {
-    title: 'Blob Storage',
-    description: 'Upload, serve, and manage files with automatic CDN caching across 300+ edge locations.',
+    key: 'blob',
+    title: t('home.features.blob.title'),
+    description: t('home.features.blob.description'),
     icon: 'i-lucide-image',
     to: '/docs/blob',
-    badge: `${imageCount.value} files`,
-    code: "hubBlob().put(filename, file)",
+    badge: t('home.features.blob.badge', { count: imageCount.value }),
+    code: 'hubBlob().put(filename, file)',
+    status: 'explore' as FeatureStatus,
   },
   {
-    title: 'KV Store',
-    description: 'Lightning-fast key-value storage globally replicated — perfect for config, flags, and redirects.',
+    key: 'kv',
+    title: t('home.features.kv.title'),
+    description: t('home.features.kv.description'),
     icon: 'i-lucide-key-round',
     to: '/docs/kv',
-    badge: 'Global',
+    badge: t('home.features.kv.badge'),
     code: "hubKV().set('key', value)",
+    status: 'explore' as FeatureStatus,
   },
   {
-    title: 'Cache',
-    description: 'Built-in Nitro caching with TTL, stale-while-revalidate, and per-route invalidation. Zero config.',
+    key: 'cache',
+    title: t('home.features.cache.title'),
+    description: t('home.features.cache.description'),
     icon: 'i-lucide-zap',
     to: '/docs/cache',
-    badge: 'Zero-config',
-    code: "cachedEventHandler(fn, { maxAge: 60 })",
+    badge: t('home.features.cache.badge'),
+    code: 'cachedEventHandler(fn, { maxAge: 60 })',
+    status: 'explore' as FeatureStatus,
   },
   {
-    title: 'Internationalization',
-    description: 'Configure locales in Nuxt and store translation strings in locale JSON files for each language.',
+    key: 'i18n',
+    title: t('home.features.i18n.title'),
+    description: t('home.features.i18n.description'),
     icon: 'i-lucide-languages',
     to: '/docs/i18n',
-    badge: 'ja / en',
+    badge: t('home.features.i18n.badge'),
     code: 'i18n.locales = [...]',
+    status: 'explore' as FeatureStatus,
   },
   {
-    title: 'Email',
-    description: 'Send transactional email from the edge with a provider-ready foundation for notifications and workflows.',
+    key: 'email',
+    title: t('home.features.email.title'),
+    description: t('home.features.email.description'),
     icon: 'i-lucide-mail',
     to: '/docs/email',
-    badge: 'Ready',
+    badge: t('home.features.email.badge'),
     code: 'nodemailer.sendMail(...)',
-    accent: 'info'
+    status: 'ready' as FeatureStatus,
   },
   {
-    title: 'AI DX',
-    description: 'Preinstalled Agent Skills make it easier to build pages, storage features, and repo improvements in this app.',
+    key: 'agents',
+    title: t('home.features.agents.title'),
+    description: t('home.features.agents.description'),
     icon: 'i-lucide-sparkles',
     to: '/docs/agents',
-    badge: 'Ready',
+    badge: t('home.features.agents.badge'),
     code: 'Use Codex with repo skills',
-    accent: 'info',
+    status: 'ready' as FeatureStatus,
   },
 ])
 
+const homeStats = computed(() =>
+  (tm('home.stats') as Array<{ label: string }>).map((item) => ({
+    label: rt(item.label),
+  })),
+)
+
 const stats = computed(() => [
-  { value: String(messageCount.value), label: 'DB rows' },
-  { value: String(imageCount.value), label: 'Blob files' },
-  { value: '~0ms', label: 'Cold start', mono: true },
-  { value: '300+', label: 'Edge PoPs' },
+  { value: String(messageCount.value), label: homeStats.value[0]?.label ?? '' },
+  { value: String(imageCount.value), label: homeStats.value[1]?.label ?? '' },
+  { value: '~0ms', label: homeStats.value[2]?.label ?? '', mono: true },
+  { value: '300+', label: homeStats.value[3]?.label ?? '' },
 ])
 
-const terminalLines = [
-  { prompt: true, text: 'pnpx install' },
-  { muted: true, text: '◼ Installing dependencies...' },
-  { muted: true, text: '◼ Installing AI Agent Skills' },
-  { green: true, text: '✓ Project created successfully' },
-  { empty: true },
-  { prompt: true, text: 'pnpx wrangler deploy' },
-  { muted: true, text: '◼ Building for Cloudflare Workers...' },
-  { muted: true, text: '◼ Migrating database...' },
-  { muted: true, text: '◼ Uploading to 300+ edge nodes...' },
-  { green: true, text: '✓ Live at https://myapp.nuxt.dev' },
-]
+const terminalLines = computed(() =>
+  (tm('home.terminal') as Array<{ type: TerminalLine['type']; text?: string }>).map((line) => ({
+    type: line.type,
+    text: line.text ? rt(line.text) : undefined,
+  })),
+)
+
+const featureStatusLabel = (status: FeatureStatus, to?: string) => {
+  if (to) {
+    return t('home.features.status.explore')
+  }
+
+  return status === 'ready'
+    ? t('home.features.status.ready')
+    : t('home.features.status.comingSoon')
+}
+
+const ctaLinks = computed<ButtonProps[]>(() => [
+  {
+    label: t('home.cta.docsLabel'),
+    to: 'https://hub.nuxt.com',
+    target: '_blank',
+    icon: 'i-lucide-book-open',
+  },
+  {
+    label: t('home.cta.githubLabel'),
+    to: 'https://github.com/rafazafar/nuxt-edge-template',
+    target: '_blank',
+    color: 'neutral',
+    variant: 'subtle',
+    icon: 'i-lucide-github',
+  },
+])
 </script>
 
 <template>
@@ -107,23 +164,22 @@ const terminalLines = [
               <span class="animate-pulse-dot absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
               <span class="relative inline-flex size-2 rounded-full bg-primary" />
             </span>
-            <span class="font-mono text-xs text-primary uppercase tracking-widest">Live on Cloudflare Workers</span>
+            <span class="font-mono text-xs text-primary uppercase tracking-widest">{{ t('home.hero.status') }}</span>
           </div>
 
           <div>
             <h1 class="text-5xl sm:text-6xl font-black tracking-tight leading-[1.05] text-highlighted mb-4">
-              Full-stack apps<br>
-              <span class="text-primary">at the edge</span>
+              {{ t('home.hero.titlePrefix') }}<br>
+              <span class="text-primary">{{ t('home.hero.titleAccent') }}</span>
             </h1>
             <p class="text-lg text-muted leading-relaxed max-w-lg">
-              A production-ready Nuxt App  — database, blob storage, KV store, and
-              caching. Deploy globally in seconds.
+              {{ t('home.hero.description') }}
             </p>
           </div>
 
           <div class="flex gap-3 flex-wrap">
             <UButton
-              label="Deploy on Cloudflare"
+              :label="t('home.hero.primaryCta')"
               to="https://deploy.workers.cloudflare.com/?url=https://github.com/rafazafar/nuxt-edge-template"
               target="_blank"
               trailing-icon="i-lucide-external-link"
@@ -133,7 +189,7 @@ const terminalLines = [
               size="lg"
             />
             <UButton
-              label="Try the features"
+              :label="t('home.hero.secondaryCta')"
               to="/docs/db"
               color="neutral"
               variant="subtle"
@@ -169,10 +225,10 @@ const terminalLines = [
               v-for="(line, i) in terminalLines"
               :key="i"
               class="leading-relaxed min-h-[1.5rem]"
-              :class="line.green ? 'text-primary' : line.muted ? 'text-zinc-500' : 'text-zinc-200'"
+              :class="line.type === 'green' ? 'text-primary' : line.type === 'muted' ? 'text-zinc-500' : 'text-zinc-200'"
             >
-              <span v-if="line.prompt" class="text-primary mr-2">❯</span>
-              <span v-if="!line.empty">{{ line.text }}</span>
+              <span v-if="line.type === 'prompt'" class="text-primary mr-2">❯</span>
+              <span v-if="line.type !== 'empty'">{{ line.text }}</span>
             </div>
             <span class="text-primary text-base animate-blink">▌</span>
           </div>
@@ -182,15 +238,15 @@ const terminalLines = [
 
     <!-- Features -->
     <UPageSection
-      headline="Primitives"
-      title="Everything you need, nothing you don't"
+      :headline="t('home.section.headline')"
+      :title="t('home.section.title')"
       :ui="{ headline: 'text-primary font-mono tracking-widest', title: 'text-highlighted font-extrabold tracking-tight' }"
     >
       <UPageGrid>
         <component
           :is="f.to ? FeatureLink : 'div'"
           v-for="f in features"
-          :key="f.title"
+          :key="f.key"
           v-bind="f.to ? { to: f.to } : {}"
           :class="f.to ? 'group block h-full' : 'block h-full'"
           :aria-disabled="f.to ? undefined : 'true'"
@@ -199,25 +255,17 @@ const terminalLines = [
           <UCard
             class="h-full transition-colors duration-200"
             :ui="{
-              root: f.accent === 'success'
-                ? 'dark:bg-zinc-900 dark:border-zinc-800 group-hover:border-success/30 h-full'
-                : f.accent === 'info'
-                  ? 'dark:bg-zinc-900 dark:border-zinc-800 group-hover:border-sky-400/30 bg-sky-500/[0.03] h-full'
-                : f.to
-                  ? 'dark:bg-zinc-900 dark:border-zinc-800 group-hover:border-primary/30 h-full'
-                  : 'dark:bg-zinc-900/60 dark:border-zinc-800 border-zinc-200 opacity-70 h-full',
+              root: f.key === 'email' || f.key === 'agents'
+                ? 'dark:bg-zinc-900 dark:border-zinc-800 group-hover:border-sky-400/30 bg-sky-500/[0.03] h-full'
+                : 'dark:bg-zinc-900 dark:border-zinc-800 group-hover:border-primary/30 h-full',
             }"
           >
             <div class="flex flex-col gap-3 h-full">
               <div class="flex items-start justify-between">
-                <UIcon
-                  :name="f.icon"
-                  :class="f.accent === 'success' ? 'size-6 text-success' : f.accent === 'info' ? 'size-6 text-sky-400' : f.to ? 'size-6 text-primary' : 'size-6 text-dimmed'
-                  "
-                />
+                <UIcon :name="f.icon" :class="f.key === 'email' || f.key === 'agents' ? 'size-6 text-sky-400' : 'size-6 text-primary'" />
                 <UBadge
                   :label="f.badge"
-                  :color="f.accent === 'success' ? 'success' : f.accent === 'info' ? 'info' : f.to ? 'primary' : 'neutral'"
+                  :color="f.key === 'agents' || f.key === 'email' ? 'info' : 'primary'"
                   variant="subtle"
                   size="sm"
                   class="font-mono text-[10px]"
@@ -235,12 +283,12 @@ const terminalLines = [
               <div class="mt-auto pt-3 border-t dark:border-zinc-800 border-zinc-200">
                 <code
                   class="text-xs font-mono block truncate mb-2"
-                  :class="f.accent === 'success' ? 'text-success/70' : f.accent === 'info' ? 'text-sky-400/70' : f.to ? 'text-primary/70' : 'text-dimmed/70'"
+                  :class="f.key === 'agents' || f.key === 'email' ? 'text-sky-400/70' : 'text-primary/70'"
                 >
                   {{ f.code }}
                 </code>
-                <span class="text-xs font-bold" :class="f.accent === 'success' ? 'text-success' : f.accent === 'info' ? 'text-sky-400' : f.to ? 'text-primary' : 'text-dimmed'">
-                  {{ f.to ? 'Explore →' : f.accent === 'success' ? 'Ready' : 'Coming soon' }}
+                <span class="text-xs font-bold" :class="f.key === 'agents' || f.key === 'email' ? 'text-sky-400' : 'text-primary'">
+                  {{ featureStatusLabel(f.status, f.to) }}
                 </span>
               </div>
             </div>
@@ -251,12 +299,9 @@ const terminalLines = [
 
     <!-- CTA -->
     <UPageCTA
-      title="Deploy to the edge in seconds"
-      description="NuxtEdge connects your Nuxt app to Cloudflare's global network. One command to deploy database migrations, blob storage, and your full application."
-      :links="[
-        { label: 'Read the docs', to: 'https://hub.nuxt.com', target: '_blank', icon: 'i-lucide-book-open' },
-        { label: 'View on GitHub', to: 'https://github.com/rafazafar/nuxt-edge-template', target: '_blank', color: 'neutral', variant: 'subtle', icon: 'i-lucide-github' },
-      ]"
+      :title="t('home.cta.title')"
+      :description="t('home.cta.description')"
+      :links="ctaLinks"
     />
   </div>
 </template>

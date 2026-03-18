@@ -1,15 +1,43 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'default' })
 
+const { t } = useI18n()
+
 useSeoMeta({
-  title: 'Internationalization · NuxtEdge',
-  description: 'A short guide to configuring languages in Nuxt and organizing locale files in this repo.',
+  title: () => t('docs.i18n.seo.title'),
+  description: () => t('docs.i18n.seo.description'),
 })
 
-const localeFiles = [
-  { code: 'ja', file: './i18n/locales/ja.json', label: 'Japanese' },
-  { code: 'en', file: './i18n/locales/en.json', label: 'English' },
-]
+type LocaleFile = {
+  code: string
+  file: string
+  label: string
+}
+
+type EditCard = {
+  title: string
+  body: string
+}
+
+const localeFiles = computed<LocaleFile[]>(() => [
+  { code: 'ja', file: './i18n/locales/ja.json', label: t('docs.i18n.localeFiles.ja.label') },
+  { code: 'en', file: './i18n/locales/en.json', label: t('docs.i18n.localeFiles.en.label') },
+])
+
+const editCards = computed<EditCard[]>(() => [
+  {
+    title: t('docs.i18n.edit.module.title'),
+    body: t('docs.i18n.edit.module.body'),
+  },
+  {
+    title: t('docs.i18n.edit.config.title'),
+    body: t('docs.i18n.edit.config.body'),
+  },
+  {
+    title: t('docs.i18n.edit.messages.title'),
+    body: t('docs.i18n.edit.messages.body'),
+  },
+])
 </script>
 
 <template>
@@ -17,12 +45,14 @@ const localeFiles = [
     <div class="mb-10">
       <div class="flex items-center gap-2 mb-4">
         <UIcon name="i-lucide-languages" class="size-5 text-sky-400" />
-        <span class="font-mono text-xs text-sky-400 uppercase tracking-widest">i18n</span>
+        <span class="font-mono text-xs text-sky-400 uppercase tracking-widest">{{ t('docs.i18n.hero.kicker') }}</span>
       </div>
-      <h1 class="text-4xl font-black tracking-tight text-highlighted mb-3">Internationalization</h1>
+      <h1 class="text-4xl font-black tracking-tight text-highlighted mb-3">{{ t('docs.i18n.hero.title') }}</h1>
       <p class="text-muted text-base leading-relaxed max-w-2xl">
-        Add or update languages in <code class="font-mono text-xs bg-sky-500/10 text-sky-400 px-1.5 py-0.5 rounded">nuxt.config.ts</code>,
-        then keep the translation strings in <code class="font-mono text-xs bg-sky-500/10 text-sky-400 px-1.5 py-0.5 rounded">./i18n/locales/&lt;locale&gt;.json</code>.
+        {{ t('docs.i18n.hero.lead.before') }}
+        <code class="font-mono text-xs bg-sky-500/10 text-sky-400 px-1.5 py-0.5 rounded">nuxt.config.ts</code>,
+        {{ t('docs.i18n.hero.lead.after') }}
+        <code class="font-mono text-xs bg-sky-500/10 text-sky-400 px-1.5 py-0.5 rounded">./i18n/locales/&lt;locale&gt;.json</code>.
       </p>
     </div>
 
@@ -30,8 +60,8 @@ const localeFiles = [
       <UCard :ui="{ root: 'dark:bg-zinc-900 dark:border-zinc-800' }">
         <template #header>
           <div class="flex items-center justify-between">
-            <span class="font-semibold text-sm text-highlighted">1. Configure locales</span>
-            <UBadge label="nuxt.config.ts" color="info" variant="subtle" size="sm" class="font-mono" />
+            <span class="font-semibold text-sm text-highlighted">{{ t('docs.i18n.sections.configureLocales.title') }}</span>
+            <UBadge :label="t('docs.i18n.sections.configureLocales.badge')" color="info" variant="subtle" size="sm" class="font-mono" />
           </div>
         </template>
 
@@ -47,15 +77,15 @@ const localeFiles = [
         </div>
 
         <div class="mt-4 text-sm text-muted leading-relaxed">
-          Add a new language by adding one more locale entry here. This is where Nuxt decides the locale code, label, and JSON file name.
+          {{ t('docs.i18n.sections.configureLocales.body') }}
         </div>
       </UCard>
 
       <UCard :ui="{ root: 'dark:bg-zinc-900 dark:border-zinc-800' }">
         <template #header>
           <div class="flex items-center justify-between">
-            <span class="font-semibold text-sm text-highlighted">2. Add the translation file</span>
-            <UBadge label="./i18n/locales" color="neutral" variant="subtle" size="sm" class="font-mono" />
+            <span class="font-semibold text-sm text-highlighted">{{ t('docs.i18n.sections.addTranslationFile.title') }}</span>
+            <UBadge :label="t('docs.i18n.sections.addTranslationFile.badge')" color="neutral" variant="subtle" size="sm" class="font-mono" />
           </div>
         </template>
 
@@ -74,28 +104,24 @@ const localeFiles = [
         </div>
 
         <div class="mt-4 text-sm text-muted leading-relaxed">
-          Each file is just a JSON dictionary. Keep the same keys across locales and translate only the values.
+          {{ t('docs.i18n.sections.addTranslationFile.body') }}
         </div>
       </UCard>
     </div>
 
     <UCard :ui="{ root: 'dark:bg-zinc-900 dark:border-zinc-800' }">
       <template #header>
-        <span class="font-semibold text-sm text-highlighted">What to edit</span>
+        <span class="font-semibold text-sm text-highlighted">{{ t('docs.i18n.edit.title') }}</span>
       </template>
 
       <div class="grid sm:grid-cols-3 gap-4">
-        <div class="rounded-xl border dark:border-zinc-800 border-zinc-200 px-4 py-3">
-          <p class="text-[10px] font-mono text-dimmed uppercase tracking-wider mb-1">Module</p>
-          <p class="text-sm text-muted leading-relaxed">Make sure <code class="font-mono text-xs text-sky-400">@nuxtjs/i18n</code> is enabled in the Nuxt modules list.</p>
-        </div>
-        <div class="rounded-xl border dark:border-zinc-800 border-zinc-200 px-4 py-3">
-          <p class="text-[10px] font-mono text-dimmed uppercase tracking-wider mb-1">Config</p>
-          <p class="text-sm text-muted leading-relaxed">Register each locale in <code class="font-mono text-xs text-sky-400">nuxt.config.ts</code> with its code and file.</p>
-        </div>
-        <div class="rounded-xl border dark:border-zinc-800 border-zinc-200 px-4 py-3">
-          <p class="text-[10px] font-mono text-dimmed uppercase tracking-wider mb-1">Messages</p>
-          <p class="text-sm text-muted leading-relaxed">Put the actual translations in <code class="font-mono text-xs text-sky-400">./i18n/locales/&lt;locale&gt;.json</code>.</p>
+        <div
+          v-for="card in editCards"
+          :key="card.title"
+          class="rounded-xl border dark:border-zinc-800 border-zinc-200 px-4 py-3"
+        >
+          <p class="text-[10px] font-mono text-dimmed uppercase tracking-wider mb-1">{{ card.title }}</p>
+          <p class="text-sm text-muted leading-relaxed">{{ card.body }}</p>
         </div>
       </div>
     </UCard>

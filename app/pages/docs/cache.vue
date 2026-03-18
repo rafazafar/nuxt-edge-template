@@ -1,6 +1,11 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'default' })
-useSeoMeta({ title: 'Cache · NuxtEdge ' })
+const { t, tm, rt, locale } = useI18n()
+
+useSeoMeta({
+  title: t('docs.cache.seo.title'),
+  description: t('docs.cache.seo.description'),
+})
 
 interface CachedResult {
   cachedAt: number
@@ -22,6 +27,37 @@ const {
   server: false,
 })
 
+const concepts = computed(
+  () =>
+    (tm('docs.cache.concepts') as Array<{ icon: string; title: string; desc: string }>).map((concept) => ({
+      icon: concept.icon,
+      title: rt(concept.title),
+      desc: rt(concept.desc),
+    })),
+)
+
+const hitStatus = computed<'fetched' | 'hit' | 'miss'>(() => {
+  if (!result.value || history.value.length <= 1) return 'fetched'
+  return history.value[0]?.hit ? 'hit' : 'miss'
+})
+
+const hitStatusLabel = computed(() => {
+  if (hitStatus.value === 'hit') return t('docs.cache.status.hit')
+  if (hitStatus.value === 'miss') return t('docs.cache.status.miss')
+  return t('docs.cache.status.fetched')
+})
+
+const hitStatusColor = computed(() => {
+  if (hitStatus.value === 'hit') return 'success'
+  if (hitStatus.value === 'miss') return 'error'
+  return 'neutral'
+})
+
+const historyBadgeLabel = (index: number, hit: boolean) => {
+  if (index === 0) return t('docs.cache.history.latest')
+  return hit ? t('docs.cache.status.hit') : t('docs.cache.status.miss')
+}
+
 async function fetchCached() {
   fetchError.value = null
   const start = performance.now()
@@ -29,7 +65,7 @@ async function fetchCached() {
     await fetchCachedResponse()
     if (error.value) throw error.value
     const data = cachedResponse.value
-    if (!data) throw new Error('No cached response returned')
+    if (!data) throw new Error(t('docs.cache.errors.noData'))
 
     const elapsed = Math.round(performance.now() - start)
     requestTime.value = elapsed
@@ -38,29 +74,21 @@ async function fetchCached() {
     history.value.unshift({ time: Date.now(), ms: elapsed, hit: isHit, value: data.value })
     if (history.value.length > 8) history.value.pop()
   } catch (err) {
-    fetchError.value = err instanceof Error ? err.message : 'Failed to fetch /api/cached'
+    fetchError.value = err instanceof Error ? err.message : t('docs.cache.errors.fetchFallback')
   }
 }
 
 function formatTime(ts: number) {
-  return new Date(ts).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+  return new Date(ts).toLocaleTimeString(locale.value, { hour: '2-digit', minute: '2-digit', second: '2-digit' })
 }
 
 function timeAgo(ts: number) {
   const s = Math.round((Date.now() - ts) / 1000)
-  return s < 60 ? `${s}s ago` : `${Math.round(s / 60)}m ago`
+  const formatter = new Intl.RelativeTimeFormat(locale.value, { numeric: 'auto' })
+  return s < 60
+    ? formatter.format(-s, 'second')
+    : formatter.format(-Math.round(s / 60), 'minute')
 }
-
-const hitStatus = computed(() => {
-  if (!result.value || history.value.length <= 1) return 'fetched'
-  return history.value[0]?.hit ? 'hit' : 'miss'
-})
-
-const concepts = [
-  { icon: 'i-lucide-clock', title: 'cachedEventHandler', desc: 'Wraps any Nitro handler with automatic response caching. Supports TTL, cache keys, and groups.' },
-  { icon: 'i-lucide-refresh-cw', title: 'Stale-while-revalidate', desc: 'Serve stale data instantly while refreshing in the background. Zero latency for users.' },
-  { icon: 'i-lucide-key', title: 'Cache invalidation', desc: 'Granular control via cache groups. Bust specific routes or entire feature groups on demand.' },
-]
 </script>
 
 <template>
@@ -71,11 +99,11 @@ const concepts = [
         <UIcon name="i-lucide-zap" class="size-5 text-rose-400" />
         <span class="font-mono text-xs text-rose-400 uppercase tracking-widest">hub:cache</span>
       </div>
-      <h1 class="text-4xl font-black tracking-tight text-highlighted mb-3">Cache</h1>
+      <h1 class="text-4xl font-black tracking-tight text-highlighted mb-3">{{ t('docs.cache.title') }}</h1>
       <p class="text-muted text-base leading-relaxed mb-5">
-        Built-in Nitro response caching with configurable TTL. This endpoint is cached for
-        <UBadge label="5 seconds" color="error" variant="subtle" size="sm" class="font-mono align-middle" />
-        — watch the value stay identical across requests, then reset after TTL expires.
+        {{ t('docs.cache.lead.beforeBadge') }}
+        <UBadge :label="t('docs.cache.ttlLabel')" color="error" variant="subtle" size="sm" class="font-mono align-middle" />
+        {{ t('docs.cache.lead.afterBadge') }}
       </p>
       <div class="rounded-lg border dark:border-zinc-800 border-zinc-200 border-l-2 border-l-rose-500 dark:bg-zinc-900 bg-zinc-100 px-4 py-3 font-mono text-sm leading-loose text-muted">
         <span class="text-violet-400">export default</span> <span class="text-primary">cachedEventHandler</span>(<span class="text-violet-400">async</span> (event) => {<br>
@@ -88,8 +116,8 @@ const concepts = [
     <UCard :ui="{ root: 'dark:bg-zinc-900 dark:border-zinc-800 mb-6' }">
       <template #header>
         <div class="flex items-center justify-between">
-          <span class="font-semibold text-sm text-highlighted">Live Cache Demo</span>
-          <UBadge label="TTL: 5s" color="error" variant="subtle" size="sm" class="font-mono" />
+          <span class="font-semibold text-sm text-highlighted">{{ t('docs.cache.demo.title') }}</span>
+          <UBadge :label="t('docs.cache.demo.ttlBadge')" color="error" variant="subtle" size="sm" class="font-mono" />
         </div>
       </template>
 
@@ -105,18 +133,18 @@ const concepts = [
       >
         <div v-if="!result && status !== 'pending'" class="text-center space-y-2">
           <UIcon name="i-lucide-zap" class="size-8 text-dimmed mx-auto" />
-          <p class="text-sm text-dimmed">Hit the button to make your first request</p>
+          <p class="text-sm text-dimmed">{{ t('docs.cache.demo.idle') }}</p>
         </div>
 
         <div v-else-if="status === 'pending'" class="flex flex-col items-center gap-3 text-muted text-sm">
           <UIcon name="i-lucide-loader" class="size-6 animate-spin text-rose-400" />
-          Fetching from edge…
+          {{ t('docs.cache.demo.loading') }}
         </div>
 
         <div v-else-if="result" class="text-center space-y-4">
           <UBadge
-            :label="hitStatus === 'hit' ? '⚡ CACHE HIT' : hitStatus === 'miss' ? '↻ CACHE MISS' : '✓ FETCHED'"
-            :color="hitStatus === 'hit' ? 'success' : hitStatus === 'miss' ? 'error' : 'neutral'"
+            :label="hitStatusLabel"
+            :color="hitStatusColor"
             variant="subtle"
             class="font-mono tracking-widest"
           />
@@ -125,14 +153,14 @@ const concepts = [
           </p>
           <div class="flex items-center justify-center gap-6">
             <div class="text-center">
-              <p class="text-[10px] font-mono text-dimmed uppercase tracking-wider mb-0.5">Cached at</p>
+              <p class="text-[10px] font-mono text-dimmed uppercase tracking-wider mb-0.5">{{ t('docs.cache.demo.cachedAt') }}</p>
               <p class="font-mono text-xs text-default">{{ formatTime(result.cachedAt) }}</p>
             </div>
             <USeparator orientation="vertical" class="h-8" />
             <div class="text-center">
-              <p class="text-[10px] font-mono text-dimmed uppercase tracking-wider mb-0.5">Response time</p>
+              <p class="text-[10px] font-mono text-dimmed uppercase tracking-wider mb-0.5">{{ t('docs.cache.demo.responseTime') }}</p>
               <p class="font-mono text-xs" :class="requestTime && requestTime < 50 ? 'text-primary' : 'text-amber-400'">
-                {{ requestTime }}ms
+                {{ requestTime }}{{ t('docs.cache.demo.msSuffix') }}
               </p>
             </div>
           </div>
@@ -141,7 +169,7 @@ const concepts = [
 
       <div class="flex flex-col items-center gap-3">
         <UButton
-          label="Fetch /api/cached"
+          :label="t('docs.cache.demo.fetchButton')"
           trailing-icon="i-lucide-arrow-right"
           color="error"
           :loading="status === 'pending'"
@@ -152,8 +180,9 @@ const concepts = [
           {{ fetchError }}
         </p>
         <p class="text-xs text-dimmed font-mono text-center max-w-xs">
-          The <code class="text-rose-400">value</code> stays the same within 5s — that's the cache.
-          After TTL, a new random value is computed.
+          {{ t('docs.cache.demo.note.beforeCode') }}
+          <code class="text-rose-400">value</code>
+          {{ t('docs.cache.demo.note.afterCode') }}
         </p>
       </div>
     </UCard>
@@ -164,7 +193,7 @@ const concepts = [
       :ui="{ root: 'dark:bg-zinc-900 dark:border-zinc-800 mb-6', body: 'p-0' }"
     >
       <template #header>
-        <span class="font-semibold text-sm text-highlighted">Request History</span>
+        <span class="font-semibold text-sm text-highlighted">{{ t('docs.cache.history.title') }}</span>
       </template>
       <div class="divide-y dark:divide-zinc-800 divide-zinc-200">
         <div
@@ -174,7 +203,7 @@ const concepts = [
         >
           <span class="text-dimmed w-5">#{{ history.length - i }}</span>
           <UBadge
-            :label="i === 0 ? 'latest' : req.hit ? 'hit' : 'miss'"
+            :label="historyBadgeLabel(i, req.hit)"
             :color="i === 0 ? 'neutral' : req.hit ? 'success' : 'error'"
             variant="subtle"
             size="sm"

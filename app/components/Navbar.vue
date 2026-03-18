@@ -9,7 +9,7 @@
         <UIcon name="i-lucide-layers" class="size-5 text-primary" />
         <span class="font-bold text-base tracking-tight">NuxtEdge</span>
         <UBadge
-          label="template"
+          :label="t('nav.badge')"
           variant="subtle"
           size="sm"
           class="uppercase font-mono text-[10px]"
@@ -22,7 +22,7 @@
     <template #right>
       <USelectMenu
         v-model="selectedLocale"
-        aria-label="Switch language"
+        :aria-label="t('nav.switcherAriaLabel')"
         :items="localeOptions"
         value-key="code"
         label-key="label"
@@ -51,25 +51,25 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
 import { computed, ref, watch } from "vue";
 
-const navItems: NavigationMenuItem[] = [
-  { label: "AI DX", to: "/docs/agents", icon: "i-lucide-bot" },
-  { label: "Database", to: "/docs/db", icon: "i-lucide-database" },
-  { label: "Blob", to: "/docs/blob", icon: "i-lucide-image" },
-  { label: "KV Store", to: "/docs/kv", icon: "i-lucide-key-round" },
-  { label: "Cache", to: "/docs/cache", icon: "i-lucide-zap" },
-  { label: "Email", to: "/docs/email", icon: "i-lucide-mail" },
-  { label: "I18n", to: "/docs/i18n", icon: "i-lucide-languages" },
-];
-
 type LocaleOption = {
   code: string;
   label: string;
 };
 
-const { locale, locales } = useI18n();
+const { t, locale, locales } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
 const fallbackLocaleLabel = (code: string) => code.toUpperCase();
+
+const navItems = computed<NavigationMenuItem[]>(() => [
+  { label: t("nav.items.agents"), to: "/docs/agents", icon: "i-lucide-bot" },
+  { label: t("nav.items.db"), to: "/docs/db", icon: "i-lucide-database" },
+  { label: t("nav.items.blob"), to: "/docs/blob", icon: "i-lucide-image" },
+  { label: t("nav.items.kv"), to: "/docs/kv", icon: "i-lucide-key-round" },
+  { label: t("nav.items.cache"), to: "/docs/cache", icon: "i-lucide-zap" },
+  { label: t("nav.items.email"), to: "/docs/email", icon: "i-lucide-mail" },
+  { label: t("nav.items.i18n"), to: "/docs/i18n", icon: "i-lucide-languages" },
+]);
 
 const localeOptions = computed<LocaleOption[]>(() =>
   locales.value.map((entry) => {

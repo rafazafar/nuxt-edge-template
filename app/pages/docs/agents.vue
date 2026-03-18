@@ -1,57 +1,71 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'default' })
 
+const { t } = useI18n()
+
 useSeoMeta({
-  title: 'AI DX · NuxtEdge',
-  description: 'How to use the preinstalled Agent Skills in this repo, with practical prompts and examples for faster development.',
+  title: () => t('docs.agents.seo.title'),
+  description: () => t('docs.agents.seo.description'),
 })
 
-const installedSkills = [
+type SkillCard = {
+  name: string
+  icon: string
+  color: 'primary' | 'success' | 'warning'
+  purpose: string
+}
+
+type PromptExample = {
+  title: string
+  prompt: string
+}
+
+const installedSkills = computed<SkillCard[]>(() => [
   {
     name: 'using-superpowers',
     icon: 'i-lucide-shield-check',
     color: 'primary',
-    purpose: 'The default repo workflow helper. Good for general tasks when you want AI to pick the right path.',
+    purpose: t('docs.agents.installedSkills.workflowHelper'),
   },
   {
     name: 'nuxt',
     icon: 'i-lucide-vuejs',
     color: 'success',
-    purpose: 'Best for pages, layouts, server routes, composables, and Nuxt-specific implementation details.',
+    purpose: t('docs.agents.installedSkills.nuxt'),
   },
   {
     name: 'nuxthub',
     icon: 'i-lucide-database-zap',
     color: 'warning',
-    purpose: 'Use this for DB, KV, blob, cache, and other edge-backed full-stack features.',
+    purpose: t('docs.agents.installedSkills.nuxthub'),
   },
-]
+])
 
-const promptExamples = [
+const promptExamples = computed<PromptExample[]>(() => [
   {
-    title: 'Build a page',
-    prompt: '/nuxt create a new `/contact` page and wire it into the navbar.',
+    title: t('docs.agents.promptExamples.buildPage.title'),
+    prompt: t('docs.agents.promptExamples.buildPage.prompt'),
   },
   {
-    title: 'Polish a UI',
-    prompt: '/nuxt-ui improve this settings screen and make the layout feel more intentional.',
+    title: t('docs.agents.promptExamples.polishUi.title'),
+    prompt: t('docs.agents.promptExamples.polishUi.prompt'),
   },
   {
-    title: 'Add storage',
-    prompt: '/nuxthub add a favorites feature stored in the database with a matching API route and UI.',
+    title: t('docs.agents.promptExamples.addStorage.title'),
+    prompt: t('docs.agents.promptExamples.addStorage.prompt'),
   },
   {
-    title: 'Improve a demo',
-    prompt: '/nuxt /nuxthub improve the blob demo UI and keep upload/delete fully working.',
+    title: t('docs.agents.promptExamples.improveDemo.title'),
+    prompt: t('docs.agents.promptExamples.improveDemo.prompt'),
   },
-]
+])
 
-const goodPrompts = [
-  'Use `/nuxt`, `/nuxt-ui`, or `/nuxthub` when you already know the area of work.',
-  'Mention the route, file, or feature you want changed.',
-  'Describe the outcome you want, not just the tool.',
-  'Ask Codex to verify when the change should be typechecked or tested.',
-]
+const goodPrompts = computed(() => [
+  t('docs.agents.goodPrompts.knowArea'),
+  t('docs.agents.goodPrompts.mentionRoute'),
+  t('docs.agents.goodPrompts.describeOutcome'),
+  t('docs.agents.goodPrompts.verifyChange'),
+])
 </script>
 
 <template>
@@ -66,28 +80,28 @@ const goodPrompts = [
           <div class="relative space-y-5">
             <div class="flex items-center gap-2">
               <UIcon name="i-lucide-bot" class="size-5 text-primary" />
-              <span class="font-mono text-xs uppercase tracking-[0.3em] text-primary">codex + skills</span>
+              <span class="font-mono text-xs uppercase tracking-[0.3em] text-primary">{{ t('docs.agents.hero.kicker') }}</span>
             </div>
 
             <div class="space-y-3">
               <h1 class="text-5xl sm:text-6xl font-black tracking-tight text-highlighted leading-[0.95]">
-                Use AI Agents
-                <span class="text-primary">the easy way</span>
+                {{ t('docs.agents.hero.title') }}
+                <span class="text-primary">{{ t('docs.agents.hero.emphasis') }}</span>
               </h1>
               <p class="max-w-2xl text-lg text-muted leading-relaxed">
-                This repo already ships with useful Agent Skills and coding techniques. The main idea is simple:
-                ask for product work in plain language, and use slash-style skill hints like
-                <code class="text-primary font-mono text-base">/nuxt</code>,
-                <code class="text-primary font-mono text-base">/nuxt-ui</code>, or
-                <code class="text-primary font-mono text-base">/nuxthub</code>
-                when you want to steer the implementation.
+                {{ t('docs.agents.hero.lead') }}
               </p>
             </div>
 
             <div class="flex flex-wrap gap-2">
-              <UBadge label="Nuxt 4 app" color="success" variant="subtle" class="font-mono" />
-              <UBadge label="NuxtHub storage" color="warning" variant="subtle" class="font-mono" />
-              <UBadge label="Skill-aware" color="primary" variant="subtle" class="font-mono" />
+              <UBadge
+                v-for="badge in [t('docs.agents.hero.badges.nuxtApp'), t('docs.agents.hero.badges.nuxthubStorage'), t('docs.agents.hero.badges.skillAware')]"
+                :key="badge"
+                :label="badge"
+                :color="badge === t('docs.agents.hero.badges.nuxtApp') ? 'success' : badge === t('docs.agents.hero.badges.nuxthubStorage') ? 'warning' : 'primary'"
+                variant="subtle"
+                class="font-mono"
+              />
             </div>
           </div>
         </UCard>
@@ -98,10 +112,10 @@ const goodPrompts = [
           <template #header>
             <div class="flex items-center justify-between gap-3">
               <div>
-                <p class="text-sm font-semibold text-highlighted">What is available in this repo</p>
-                <p class="text-xs text-muted">Three repo-level skills cover most of the work here.</p>
+                <p class="text-sm font-semibold text-highlighted">{{ t('docs.agents.repo.title') }}</p>
+                <p class="text-xs text-muted">{{ t('docs.agents.repo.subtitle') }}</p>
               </div>
-              <UBadge label="Preinstalled" color="neutral" variant="subtle" size="sm" class="font-mono" />
+              <UBadge :label="t('docs.agents.repo.badge')" color="neutral" variant="subtle" size="sm" class="font-mono" />
             </div>
           </template>
 
@@ -138,10 +152,10 @@ const goodPrompts = [
           <template #header>
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm font-semibold text-highlighted">Prompt examples</p>
-                <p class="text-xs text-muted">These are closer to what you would actually type.</p>
+                <p class="text-sm font-semibold text-highlighted">{{ t('docs.agents.promptExamples.title') }}</p>
+                <p class="text-xs text-muted">{{ t('docs.agents.promptExamples.subtitle') }}</p>
               </div>
-              <UBadge label="Copy style" color="success" variant="subtle" size="sm" class="font-mono" />
+              <UBadge :label="t('docs.agents.promptExamples.badge')" color="success" variant="subtle" size="sm" class="font-mono" />
             </div>
           </template>
 
@@ -163,8 +177,8 @@ const goodPrompts = [
         <UCard :ui="{ root: 'dark:bg-zinc-900 dark:border-zinc-800' }">
           <template #header>
             <div>
-              <p class="text-sm font-semibold text-highlighted">How to get better results</p>
-              <p class="text-xs text-muted">A few small prompt habits help a lot.</p>
+              <p class="text-sm font-semibold text-highlighted">{{ t('docs.agents.goodPrompts.title') }}</p>
+              <p class="text-xs text-muted">{{ t('docs.agents.goodPrompts.subtitle') }}</p>
             </div>
           </template>
 
@@ -184,8 +198,8 @@ const goodPrompts = [
           <USeparator class="my-4" />
 
           <div class="space-y-2 text-sm text-muted leading-relaxed">
-            <p>Good: “`/nuxthub` add a simple favorites API and wire it into the UI.”</p>
-            <p>Weak: “Do something with storage.”</p>
+            <p>{{ t('docs.agents.goodPrompts.goodExample') }}</p>
+            <p>{{ t('docs.agents.goodPrompts.weakExample') }}</p>
           </div>
         </UCard>
       </section>

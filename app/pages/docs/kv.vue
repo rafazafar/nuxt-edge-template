@@ -1,6 +1,11 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'default' })
-useSeoMeta({ title: 'KV Store · NuxtEdge ' })
+const { t, tm, rt } = useI18n()
+
+useSeoMeta({
+  title: t('docs.kv.seo.title'),
+  description: t('docs.kv.seo.description'),
+})
 
 const toast = useToast()
 
@@ -11,6 +16,14 @@ const { data: redirects, refresh } = await useFetch('/api/redirects', {
 })
 
 const pairs = computed(() => redirects.value ?? [])
+const howSteps = computed(
+  () =>
+    (tm('docs.kv.how.steps') as Array<{ n: string; title: string; desc: string }>).map((step) => ({
+      n: rt(step.n),
+      title: rt(step.title),
+      desc: rt(step.desc),
+    })),
+)
 const newFrom = ref('')
 const newTo = ref('')
 const saving = ref(false)
@@ -33,14 +46,8 @@ async function saveRedirects() {
   await $fetch('/api/redirects', { method: 'PUT', body })
   await refresh()
   saving.value = false
-  toast.add({ title: 'Redirects saved to KV', icon: 'i-lucide-check', color: 'success' })
+  toast.add({ title: t('docs.kv.toast.saved'), icon: 'i-lucide-check', color: 'success' })
 }
-
-const howSteps = [
-  { n: '1', title: 'Store in KV', desc: 'Redirect rules are saved as a JSON object in NuxtEdge KV with hubKV().set().' },
-  { n: '2', title: 'Nitro middleware', desc: 'A server middleware reads the KV store on every request and matches paths.' },
-  { n: '3', title: 'Edge redirect', desc: 'Matching requests are redirected with sendRedirect() — no origin hit needed.' },
-]
 </script>
 
 <template>
@@ -51,10 +58,11 @@ const howSteps = [
         <UIcon name="i-lucide-key-round" class="size-5 text-amber-400" />
         <span class="font-mono text-xs text-amber-400 uppercase tracking-widest">hub:kv</span>
       </div>
-      <h1 class="text-4xl font-black tracking-tight text-highlighted mb-3">KV Store</h1>
+      <h1 class="text-4xl font-black tracking-tight text-highlighted mb-3">{{ t('docs.kv.title') }}</h1>
       <p class="text-muted text-base leading-relaxed mb-5">
-        KV is useful for small, fast reads like redirects, feature flags, app config, and lightweight edge state.
-        This demo stores redirect rules in <code class="font-mono text-xs bg-amber-500/10 text-amber-400 px-1.5 py-0.5 rounded">hubKV()</code> so Nitro can apply them on request.
+        {{ t('docs.kv.lead.beforeCode') }}
+        <code class="font-mono text-xs bg-amber-500/10 text-amber-400 px-1.5 py-0.5 rounded">hubKV()</code>
+        {{ t('docs.kv.lead.afterCode') }}
       </p>
       <div class="rounded-lg border dark:border-zinc-800 border-zinc-200 border-l-2 border-l-amber-500 dark:bg-zinc-900 bg-zinc-100 px-4 py-3 font-mono text-sm leading-loose text-muted">
         <span class="text-violet-400">const</span> kv = <span class="text-primary">hubKV</span>()<br>
@@ -67,8 +75,8 @@ const howSteps = [
     <UCard :ui="{ root: 'dark:bg-zinc-900 dark:border-zinc-800 mb-6', body: 'p-0' }">
       <template #header>
         <div class="flex items-center justify-between">
-          <span class="font-semibold text-sm text-highlighted">Redirect Rules</span>
-          <UBadge label="Managed via KV · Applied by Nitro" variant="subtle" size="sm" class="font-mono text-[10px]" />
+          <span class="font-semibold text-sm text-highlighted">{{ t('docs.kv.editor.title') }}</span>
+          <UBadge :label="t('docs.kv.editor.badge')" variant="subtle" size="sm" class="font-mono text-[10px]" />
         </div>
       </template>
 
@@ -94,17 +102,17 @@ const howSteps = [
         </TransitionGroup>
 
         <div v-if="!pairs.length" class="px-4 py-8 text-center text-sm text-dimmed font-mono">
-          No redirect rules. Add one below.
+          {{ t('docs.kv.editor.empty') }}
         </div>
       </div>
 
       <!-- Add new rule -->
       <div class="border-t dark:border-zinc-800 border-zinc-200 bg-amber-500/[0.02] px-4 py-4">
-        <p class="text-xs font-mono text-dimmed uppercase tracking-wider mb-3">Add rule</p>
+        <p class="text-xs font-mono text-dimmed uppercase tracking-wider mb-3">{{ t('docs.kv.editor.addLabel') }}</p>
         <div class="flex items-center gap-2">
           <UInput
             v-model="newFrom"
-            placeholder="/old-path"
+            :placeholder="t('docs.kv.editor.fromPlaceholder')"
             size="sm"
             class="flex-1 font-mono"
             @keydown.enter="addPair"
@@ -112,7 +120,7 @@ const howSteps = [
           <UIcon name="i-lucide-arrow-right" class="size-4 text-dimmed flex-shrink-0" />
           <UInput
             v-model="newTo"
-            placeholder="/new-path"
+            :placeholder="t('docs.kv.editor.toPlaceholder')"
             size="sm"
             class="flex-1 font-mono"
             @keydown.enter="addPair"
@@ -130,9 +138,9 @@ const howSteps = [
 
       <template #footer>
         <div class="flex items-center justify-between">
-          <span class="text-xs text-dimmed font-mono">Changes apply on next request via Nitro middleware.</span>
+          <span class="text-xs text-dimmed font-mono">{{ t('docs.kv.editor.footerNote') }}</span>
           <UButton
-            label="Save to KV"
+            :label="t('docs.kv.editor.saveButton')"
             icon="i-lucide-save"
             :loading="saving"
             @click="saveRedirects"
@@ -144,7 +152,7 @@ const howSteps = [
     <!-- How it works -->
     <UCard :ui="{ root: 'dark:bg-zinc-900 dark:border-zinc-800' }">
       <template #header>
-        <span class="font-semibold text-sm text-highlighted">How it works</span>
+        <span class="font-semibold text-sm text-highlighted">{{ t('docs.kv.how.title') }}</span>
       </template>
 
       <div class="space-y-4">

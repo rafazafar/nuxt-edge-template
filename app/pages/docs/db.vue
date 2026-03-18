@@ -1,6 +1,11 @@
 <script setup lang="ts">
 definePageMeta({ layout: "default" });
-useSeoMeta({ title: "Database · NuxtEdge " });
+const { t, tm, rt, locale } = useI18n();
+
+useSeoMeta({
+  title: t("docs.db.seo.title"),
+  description: t("docs.db.seo.description"),
+});
 
 const toast = useToast();
 const newMessage = ref("");
@@ -9,6 +14,14 @@ const editText = ref("");
 const submitting = ref(false);
 
 const { data: messages, refresh } = await useFetch("/api/messages");
+const schema = computed(
+  () =>
+    (tm("docs.db.schema.rows") as Array<{ col: string; type: string; meta: string }>).map((row) => ({
+      col: rt(row.col),
+      type: rt(row.type),
+      meta: rt(row.meta),
+    })),
+);
 
 async function sendMessage() {
   if (!newMessage.value.trim() || submitting.value) return;
@@ -21,7 +34,7 @@ async function sendMessage() {
   await refresh();
   submitting.value = false;
   toast.add({
-    title: "Message saved",
+    title: t("docs.db.toast.saved"),
     icon: "i-lucide-check",
     color: "success",
   });
@@ -31,7 +44,7 @@ async function deleteMessage(id: number) {
   await $fetch("/api/messages", { method: "DELETE", body: { messageID: id } });
   await refresh();
   toast.add({
-    title: "Message deleted",
+    title: t("docs.db.toast.deleted"),
     icon: "i-lucide-trash",
     color: "neutral",
   });
@@ -51,7 +64,7 @@ async function saveEdit() {
   editingId.value = null;
   await refresh();
   toast.add({
-    title: "Message updated",
+    title: t("docs.db.toast.updated"),
     icon: "i-lucide-pencil",
     color: "success",
   });
@@ -59,23 +72,13 @@ async function saveEdit() {
 
 function formatTime(ts: number) {
   if (!ts) return "—";
-  return new Date(ts).toLocaleString("en-US", {
+  return new Date(ts).toLocaleString(locale.value, {
     month: "short",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
   });
 }
-
-const schema = [
-  { col: "id", type: "INTEGER", meta: "PRIMARY KEY · AUTOINCREMENT" },
-  { col: "text", type: "TEXT", meta: "NOT NULL" },
-  { col: "created_at", type: "INTEGER", meta: "NOT NULL" },
-];
-
-const md = `
-const rows = await db.select().from(tables.messages);
-`;
 </script>
 
 <template>
@@ -89,11 +92,10 @@ const rows = await db.select().from(tables.messages);
         >
       </div>
       <h1 class="text-4xl font-black tracking-tight text-highlighted mb-3">
-        Database
+        {{ t("docs.db.title") }}
       </h1>
       <p class="text-muted text-base leading-relaxed mb-5">
-        Full CRUD on a SQLite database at the edge! With support for any SQL
-        database.
+        {{ t("docs.db.lead") }}
       </p>
       <div
         class="rounded-lg border dark:border-zinc-800 border-zinc-200 border-l-2 border-l-primary dark:bg-zinc-900 bg-zinc-100 px-4 py-3 font-mono text-sm leading-loose text-muted"
@@ -107,14 +109,14 @@ const rows = await db.select().from(tables.messages);
     <div class="flex gap-3 mb-8">
       <UInput
         v-model="newMessage"
-        placeholder="Write a message to store in SQLite…"
+        :placeholder="t('docs.db.composer.placeholder')"
         size="lg"
         :disabled="submitting"
         class="flex-1"
         @keydown.enter="sendMessage"
       />
       <UButton
-        label="Send"
+        :label="t('docs.db.composer.send')"
         trailing-icon="i-lucide-send"
         size="lg"
         :disabled="!newMessage.trim() || submitting"
@@ -141,13 +143,13 @@ const rows = await db.select().from(tables.messages);
             />
             <div class="flex gap-2">
               <UButton
-                label="Save"
+                :label="t('docs.db.buttons.save')"
                 size="sm"
                 icon="i-lucide-check"
                 @click="saveEdit"
               />
               <UButton
-                label="Cancel"
+                :label="t('docs.db.buttons.cancel')"
                 size="sm"
                 color="neutral"
                 variant="ghost"
@@ -174,7 +176,7 @@ const rows = await db.select().from(tables.messages);
             <USeparator class="mb-3" />
             <div class="flex gap-2">
               <UButton
-                label="Edit"
+                :label="t('docs.db.buttons.edit')"
                 size="xs"
                 color="neutral"
                 variant="outline"
@@ -182,7 +184,7 @@ const rows = await db.select().from(tables.messages);
                 @click="startEdit(msg)"
               />
               <UButton
-                label="Delete"
+                :label="t('docs.db.buttons.delete')"
                 size="xs"
                 color="error"
                 variant="ghost"
@@ -197,8 +199,8 @@ const rows = await db.select().from(tables.messages);
       <UEmpty
         v-if="!messages?.length"
         icon="i-lucide-database"
-        title="No messages yet"
-        description="Send your first message above to store it in SQLite."
+        :title="t('docs.db.empty.title')"
+        :description="t('docs.db.empty.description')"
       />
     </div>
 
@@ -207,10 +209,10 @@ const rows = await db.select().from(tables.messages);
       <template #header>
         <div class="flex items-center justify-between">
           <span class="font-mono text-sm text-default">
-            Schema: <span class="text-primary">messages</span>
+            {{ t("docs.db.schema.title") }} <span class="text-primary">messages</span>
           </span>
           <UBadge
-            label="SQLite · Drizzle ORM"
+            :label="t('docs.db.schema.badge')"
             variant="subtle"
             size="sm"
             class="font-mono text-[10px]"
@@ -221,7 +223,7 @@ const rows = await db.select().from(tables.messages);
         <div
           class="grid grid-cols-3 gap-3 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-dimmed"
         >
-          <span>column</span><span>type</span><span>constraints</span>
+          <span>{{ t("docs.db.schema.columns.column") }}</span><span>{{ t("docs.db.schema.columns.type") }}</span><span>{{ t("docs.db.schema.columns.constraints") }}</span>
         </div>
         <div
           v-for="row in schema"

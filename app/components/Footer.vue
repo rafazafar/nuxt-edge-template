@@ -2,8 +2,7 @@
   <UFooter :ui="{ root: 'dark:border-white/5 border-black/8' }">
     <template #left>
       <p class="text-sm text-zinc-500 dark:text-zinc-500 font-mono">
-        Built with <span class="text-primary">NuxtHub</span> · Running at the
-        edge
+        {{ t('footer.prefix') }} <span class="text-primary">NuxtHub</span> · {{ t('footer.suffix') }}
       </p>
     </template>
     <template #right>
@@ -16,7 +15,7 @@
         size="sm"
       />
       <UButton
-        label="Docs"
+        :label="t('footer.docsLabel')"
         color="neutral"
         variant="ghost"
         to="https://hub.nuxt.com/docs/getting-started"
@@ -26,3 +25,7 @@
     </template>
   </UFooter>
 </template>
+
+<script setup lang="ts">
+const { t } = useI18n()
+</script>

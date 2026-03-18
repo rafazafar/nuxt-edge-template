@@ -1,9 +1,482 @@
 {
   "app": {
-    "title": "Nuxt Dashboard Template",
-    "description": "A Nuxt UI based dashboard template with data visualization, admin workflows, and multi-page management screens."
+    "title": "NuxtEdge",
+    "description": "A production-ready Nuxt template with SQLite database, blob storage, KV store, and caching, all running at the edge."
   },
-  "common": {
-   
+  "nav": {
+    "badge": "template",
+    "switcherAriaLabel": "Switch language",
+    "items": {
+      "agents": "AI DX",
+      "db": "Database",
+      "blob": "Blob",
+      "kv": "KV Store",
+      "cache": "Cache",
+      "email": "Email",
+      "i18n": "I18n"
+    }
+  },
+  "footer": {
+    "prefix": "Built with",
+    "suffix": "Running at the edge",
+    "docsLabel": "Docs"
+  },
+  "home": {
+    "seo": {
+      "title": "NuxtEdge - Build on the Edge",
+      "description": "A production-ready Nuxt app with database, blob storage, KV store, and caching. Deploy globally in seconds."
+    },
+    "hero": {
+      "status": "Live on Cloudflare Workers",
+      "titlePrefix": "Full-stack apps",
+      "titleAccent": "at the edge",
+      "description": "A production-ready Nuxt app with database, blob storage, KV store, and caching. Deploy globally in seconds.",
+      "primaryCta": "Deploy on Cloudflare",
+      "secondaryCta": "Try the features"
+    },
+    "section": {
+      "headline": "Primitives",
+      "title": "Everything you need, nothing you don't"
+    },
+    "features": {
+      "db": {
+        "title": "Database",
+        "description": "Full SQLite at the edge with Drizzle ORM. Zero cold starts, full CRUD, automatic migrations.",
+        "badge": "{count} rows"
+      },
+      "blob": {
+        "title": "Blob Storage",
+        "description": "Upload, serve, and manage files with automatic CDN caching across 300+ edge locations.",
+        "badge": "{count} files"
+      },
+      "kv": {
+        "title": "KV Store",
+        "description": "Lightning-fast key-value storage globally replicated, perfect for config, flags, and redirects.",
+        "badge": "Global"
+      },
+      "cache": {
+        "title": "Cache",
+        "description": "Built-in Nitro caching with TTL, stale-while-revalidate, and per-route invalidation. Zero config.",
+        "badge": "Zero-config"
+      },
+      "i18n": {
+        "title": "Internationalization",
+        "description": "Configure locales in Nuxt and store translation strings in locale JSON files for each language.",
+        "badge": "ja / en"
+      },
+      "email": {
+        "title": "Email",
+        "description": "Send transactional email from the edge with a provider-ready foundation for notifications and workflows.",
+        "badge": "Ready"
+      },
+      "agents": {
+        "title": "AI DX",
+        "description": "Preinstalled Agent Skills make it easier to build pages, storage features, and repo improvements in this app.",
+        "badge": "Ready"
+      },
+      "status": {
+        "explore": "Explore ->",
+        "ready": "Ready",
+        "comingSoon": "Coming soon"
+      }
+    },
+    "stats": [
+      { "label": "DB rows" },
+      { "label": "Blob files" },
+      { "label": "Cold start" },
+      { "label": "Edge PoPs" }
+    ],
+    "terminal": [
+      { "type": "prompt", "text": "pnpx install" },
+      { "type": "muted", "text": "Installing dependencies..." },
+      { "type": "muted", "text": "Installing AI Agent Skills" },
+      { "type": "green", "text": "Project created successfully" },
+      { "type": "empty" },
+      { "type": "prompt", "text": "pnpx wrangler deploy" },
+      { "type": "muted", "text": "Building for Cloudflare Workers..." },
+      { "type": "muted", "text": "Migrating database..." },
+      { "type": "muted", "text": "Uploading to 300+ edge nodes..." },
+      { "type": "green", "text": "Live at https://myapp.nuxt.dev" }
+    ],
+    "cta": {
+      "title": "Deploy to the edge in seconds",
+      "description": "NuxtEdge connects your Nuxt app to Cloudflare's global network. One command to deploy database migrations, blob storage, and your full application.",
+      "docsLabel": "Read the docs",
+      "githubLabel": "View on GitHub"
+    }
+  },
+  "docs": {
+    "agents": {
+      "seo": {
+        "title": "AI DX · NuxtEdge",
+        "description": "How to use the preinstalled Agent Skills in this repo, with practical prompts and examples for faster development."
+      },
+      "hero": {
+        "kicker": "codex + skills",
+        "title": "Use AI Agents",
+        "emphasis": "the easy way",
+        "lead": "This repo already ships with useful Agent Skills and coding techniques. The main idea is simple: ask for product work in plain language, and use slash-style skill hints like `/nuxt`, `/nuxt-ui`, or `/nuxthub` when you want to steer the implementation.",
+        "badges": {
+          "nuxtApp": "Nuxt 4 app",
+          "nuxthubStorage": "NuxtHub storage",
+          "skillAware": "Skill-aware"
+        }
+      },
+      "repo": {
+        "title": "What is available in this repo",
+        "subtitle": "Three repo-level skills cover most of the work here.",
+        "badge": "Preinstalled"
+      },
+      "installedSkills": {
+        "workflowHelper": "The default repo workflow helper. Good for general tasks when you want AI to pick the right path.",
+        "nuxt": "Best for pages, layouts, server routes, composables, and Nuxt-specific implementation details.",
+        "nuxthub": "Use this for DB, KV, blob, cache, and other edge-backed full-stack features."
+      },
+      "promptExamples": {
+        "title": "Prompt examples",
+        "subtitle": "These are closer to what you would actually type.",
+        "badge": "Copy style",
+        "buildPage": {
+          "title": "Build a page",
+          "prompt": "/nuxt create a new `/contact` page and wire it into the navbar."
+        },
+        "polishUi": {
+          "title": "Polish a UI",
+          "prompt": "/nuxt-ui improve this settings screen and make the layout feel more intentional."
+        },
+        "addStorage": {
+          "title": "Add storage",
+          "prompt": "/nuxthub add a favorites feature stored in the database with a matching API route and UI."
+        },
+        "improveDemo": {
+          "title": "Improve a demo",
+          "prompt": "/nuxt /nuxthub improve the blob demo UI and keep upload/delete fully working."
+        }
+      },
+      "goodPrompts": {
+        "title": "How to get better results",
+        "subtitle": "A few small prompt habits help a lot.",
+        "knowArea": "Use `/nuxt`, `/nuxt-ui`, or `/nuxthub` when you already know the area of work.",
+        "mentionRoute": "Mention the route, file, or feature you want changed.",
+        "describeOutcome": "Describe the outcome you want, not just the tool.",
+        "verifyChange": "Ask Codex to verify when the change should be typechecked or tested.",
+        "goodExample": "Good: `/nuxthub` add a simple favorites API and wire it into the UI.",
+        "weakExample": "Weak: Do something with storage."
+      }
+    },
+    "i18n": {
+      "seo": {
+        "title": "Internationalization · NuxtEdge",
+        "description": "A short guide to configuring languages in Nuxt and organizing locale files in this repo."
+      },
+      "hero": {
+        "kicker": "i18n",
+        "title": "Internationalization",
+        "lead": {
+          "before": "Add or update languages in",
+          "after": "then keep the translation strings in"
+        }
+      },
+      "sections": {
+        "configureLocales": {
+          "title": "1. Configure locales",
+          "badge": "nuxt.config.ts",
+          "body": "Add a new language by adding one more locale entry here. This is where Nuxt decides the locale code, label, and JSON file name."
+        },
+        "addTranslationFile": {
+          "title": "2. Add the translation file",
+          "badge": "./i18n/locales",
+          "body": "Each file is just a JSON dictionary. Keep the same keys across locales and translate only the values."
+        }
+      },
+      "localeFiles": {
+        "ja": { "label": "Japanese" },
+        "en": { "label": "English" }
+      },
+      "edit": {
+        "title": "What to edit",
+        "module": {
+          "title": "Module",
+          "body": "Make sure `{'@'}nuxtjs/i18n` is enabled in the Nuxt modules list."
+        },
+        "config": {
+          "title": "Config",
+          "body": "Register each locale in `nuxt.config.ts` with its code and file."
+        },
+        "messages": {
+          "title": "Messages",
+          "body": "Put the actual translations in `./i18n/locales/&lt;locale&gt;.json`."
+        }
+      }
+    },
+    "email": {
+      "seo": {
+        "title": "Email · NuxtEdge",
+        "description": "How to configure `nuxt-nodemailer`, set `sendMail` params, and override secrets with environment variables."
+      },
+      "hero": {
+        "kicker": "nuxt-nodemailer",
+        "title": "Email",
+        "lead": "Send transactional email from the server runtime using the preinstalled `nuxt-nodemailer` module. This page documents the config keys, the `sendMail` params, and the env overrides you need before wiring a real notification flow."
+      },
+      "sections": {
+        "configureTransporter": {
+          "title": "1. Configure the transporter",
+          "badge": "nuxt.config.ts",
+          "body": "The template already includes a `nodemailer` block in `nuxt.config.ts`. Replace the example values with your provider credentials. The module only lets env vars override keys that are already present in config, so keep the full shape in place."
+        },
+        "sendMailParams": {
+          "title": "2. Set the `sendMail` params",
+          "badge": "server-only",
+          "body": "Use `useNodeMailer()` inside a server route, server action, or another server-only context. `sendMail()` automatically inherits `from` from your Nuxt config, so most calls only need the recipient and content."
+        },
+        "envOverrides": {
+          "title": "3. Override secrets with env vars",
+          "badge": "deployment",
+          "body": "Prefer env vars for secrets and production-specific values. Prefix each override with `NUXT_NODEMAILER_` and uppercase the path. Nested keys flatten with underscores."
+        },
+        "recommendation": {
+          "title": "4. Provider recommendation",
+          "badge": "recommended",
+          "body": {
+            "before": "Start with",
+            "after": "for transactional email. It has a cleaner developer workflow than many legacy SMTP providers, good deliverability, and straightforward API key management. If you prefer pure SMTP portability, Postmark, Mailgun, or Mailtrap also fit this template well."
+          },
+          "baseline": {
+            "label": "Recommended baseline:",
+            "secretPrefix": "and put the real secret in"
+          },
+          "footer": "Docs-first for now. A future upgrade can add a setup validator or a test-send endpoint."
+        }
+      },
+      "tableHeaders": {
+        "key": "key",
+        "example": "example",
+        "description": "what it does"
+      },
+      "configFields": {
+        "from": "Default sender inherited by sendMail().",
+        "host": "Your SMTP host from the provider.",
+        "port": "Usually 587 for STARTTLS or 465 for implicit TLS.",
+        "secure": "Set true when using port 465.",
+        "authUser": "SMTP username or API key, depending on provider.",
+        "authPass": "Secret credential. Prefer env overrides in deployment."
+      },
+      "sendMailParams": {
+        "to": "Required recipient email address.",
+        "subject": "Required subject line.",
+        "text": "Recommended for clients that do not render HTML.",
+        "html": "Optional rich HTML email body.",
+        "from": "Usually omit this because the module inherits it from config."
+      }
+    },
+    "blob": {
+      "seo": {
+        "title": "Blob Storage · NuxtEdge",
+        "description": "Upload and serve files with automatic CDN caching and global delivery through NuxtHub Blob storage."
+      },
+      "title": "Blob Storage",
+      "lead": {
+        "beforeCode": "Upload and serve files with automatic CDN caching. Powered by",
+        "afterCode": "stores to Cloudflare R2 with global edge delivery."
+      },
+      "upload": {
+        "label": "Drop an image here",
+        "description": "PNG, JPG, or WebP up to 8MB. Click to browse or drag and drop.",
+        "button": "Upload Image",
+        "selectedFileHint": {
+          "beforeCode": "Selected file is uploaded to R2 through",
+          "afterCode": ""
+        }
+      },
+      "toast": {
+        "uploaded": "Image uploaded",
+        "uploadFailed": "Upload failed",
+        "uploadFailedFallback": "Unable to upload image",
+        "deleted": "Image deleted",
+        "deleteFailed": "Delete failed",
+        "deleteFailedFallback": "Unable to delete image"
+      },
+      "gallery": {
+        "storedOne": "{count} file stored",
+        "storedOther": "{count} files stored",
+        "deleteHint": "Click image to delete",
+        "deleteBadge": "Delete"
+      },
+      "empty": {
+        "title": "No images yet",
+        "description": "Upload your first image above to store it in Cloudflare R2."
+      },
+      "infoCards": [
+        {
+          "icon": "i-lucide-zap",
+          "title": "Edge CDN",
+          "text": "Files served from the nearest Cloudflare PoP - 300+ locations worldwide."
+        },
+        {
+          "icon": "i-lucide-shield",
+          "title": "Secure by default",
+          "text": "CSP headers automatically applied. No direct R2 bucket access required."
+        },
+        {
+          "icon": "i-lucide-infinity",
+          "title": "No size limits",
+          "text": "Store anything from tiny config files to large video assets at the edge."
+        }
+      ]
+    },
+    "cache": {
+      "seo": {
+        "title": "Cache · NuxtEdge",
+        "description": "Explore built-in Nitro response caching with TTL, cache hits, and request history."
+      },
+      "title": "Cache",
+      "lead": {
+        "beforeBadge": "Built-in Nitro response caching with configurable TTL. This endpoint is cached for",
+        "afterBadge": "- watch the value stay identical across requests, then reset after TTL expires."
+      },
+      "ttlLabel": "5 seconds",
+      "demo": {
+        "title": "Live Cache Demo",
+        "ttlBadge": "TTL: 5s",
+        "idle": "Hit the button to make your first request",
+        "loading": "Fetching from edge...",
+        "cachedAt": "Cached at",
+        "responseTime": "Response time",
+        "msSuffix": "ms",
+        "fetchButton": "Fetch /api/cached",
+        "note": {
+          "beforeCode": "The",
+          "afterCode": "stays the same within 5s - that's the cache. After TTL, a new random value is computed."
+        }
+      },
+      "status": {
+        "hit": "CACHE HIT",
+        "miss": "CACHE MISS",
+        "fetched": "FETCHED"
+      },
+      "history": {
+        "title": "Request History",
+        "latest": "latest"
+      },
+      "errors": {
+        "noData": "No cached response returned",
+        "fetchFallback": "Failed to fetch /api/cached"
+      },
+      "concepts": [
+        {
+          "icon": "i-lucide-clock",
+          "title": "cachedEventHandler",
+          "desc": "Wraps any Nitro handler with automatic response caching. Supports TTL, cache keys, and groups."
+        },
+        {
+          "icon": "i-lucide-refresh-cw",
+          "title": "Stale-while-revalidate",
+          "desc": "Serve stale data instantly while refreshing in the background. Zero latency for users."
+        },
+        {
+          "icon": "i-lucide-key",
+          "title": "Cache invalidation",
+          "desc": "Granular control via cache groups. Bust specific routes or entire feature groups on demand."
+        }
+      ]
+    },
+    "db": {
+      "seo": {
+        "title": "Database · NuxtEdge",
+        "description": "Manage SQLite data at the edge with a simple CRUD demo and schema view."
+      },
+      "title": "Database",
+      "lead": "Full CRUD on a SQLite database at the edge, with support for any SQL database.",
+      "composer": {
+        "placeholder": "Write a message to store in SQLite...",
+        "send": "Send"
+      },
+      "buttons": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "toast": {
+        "saved": "Message saved",
+        "deleted": "Message deleted",
+        "updated": "Message updated"
+      },
+      "empty": {
+        "title": "No messages yet",
+        "description": "Send your first message above to store it in SQLite."
+      },
+      "schema": {
+        "title": "Schema:",
+        "badge": "SQLite · Drizzle ORM",
+        "columns": {
+          "column": "column",
+          "type": "type",
+          "constraints": "constraints"
+        },
+        "rows": [
+          {
+            "col": "id",
+            "type": "INTEGER",
+            "meta": "PRIMARY KEY · AUTOINCREMENT"
+          },
+          {
+            "col": "text",
+            "type": "TEXT",
+            "meta": "NOT NULL"
+          },
+          {
+            "col": "created_at",
+            "type": "INTEGER",
+            "meta": "NOT NULL"
+          }
+        ]
+      }
+    },
+    "kv": {
+      "seo": {
+        "title": "KV Store · NuxtEdge",
+        "description": "Store redirect rules in NuxtHub KV and apply them at the edge through Nitro middleware."
+      },
+      "title": "KV Store",
+      "lead": {
+        "beforeCode": "KV is useful for small, fast reads like redirects, feature flags, app config, and lightweight edge state. This demo stores redirect rules in",
+        "afterCode": "so Nitro can apply them on request."
+      },
+      "editor": {
+        "title": "Redirect Rules",
+        "badge": "Managed via KV · Applied by Nitro",
+        "empty": "No redirect rules. Add one below.",
+        "addLabel": "Add rule",
+        "fromPlaceholder": "/old-path",
+        "toPlaceholder": "/new-path",
+        "footerNote": "Changes apply on next request via Nitro middleware.",
+        "saveButton": "Save to KV"
+      },
+      "toast": {
+        "saved": "Redirects saved to KV"
+      },
+      "how": {
+        "title": "How it works",
+        "steps": [
+          {
+            "n": "1",
+            "title": "Store in KV",
+            "desc": "Redirect rules are saved as a JSON object in NuxtEdge KV with hubKV().set()."
+          },
+          {
+            "n": "2",
+            "title": "Nitro middleware",
+            "desc": "A server middleware reads the KV store on every request and matches paths."
+          },
+          {
+            "n": "3",
+            "title": "Edge redirect",
+            "desc": "Matching requests are redirected with sendRedirect() - no origin hit needed."
+          }
+        ]
+      }
+    }
   }
 }

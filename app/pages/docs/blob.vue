@@ -1,12 +1,34 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'default' })
-useSeoMeta({ title: 'Blob Storage · NuxtEdge ' })
+const { t, tm, rt } = useI18n()
+
+useSeoMeta({
+  title: t('docs.blob.seo.title'),
+  description: t('docs.blob.seo.description'),
+})
 
 const toast = useToast()
 const { data: images, refresh } = await useFetch('/api/images')
 const uploading = ref(false)
 const selectedFile = ref<File | null>(null)
 const upload = useUpload('/api/images/upload', { multiple: false })
+const imageCount = computed(() => (images.value as any)?.length ?? 0)
+
+const infoCards = computed(
+  () =>
+    (tm('docs.blob.infoCards') as Array<{ icon: string; title: string; text: string }>).map((card) => ({
+      icon: card.icon,
+      title: rt(card.title),
+      text: rt(card.text),
+    })),
+)
+
+const storedImagesLabel = computed(() => {
+  const count = imageCount.value
+  return count === 1
+    ? t('docs.blob.gallery.storedOne', { count })
+    : t('docs.blob.gallery.storedOther', { count })
+})
 
 async function handleUpload() {
   if (!selectedFile.value || uploading.value) return
@@ -15,11 +37,11 @@ async function handleUpload() {
     await upload(selectedFile.value)
     selectedFile.value = null
     await refresh()
-    toast.add({ title: 'Image uploaded', icon: 'i-lucide-check', color: 'success' })
+    toast.add({ title: t('docs.blob.toast.uploaded'), icon: 'i-lucide-check', color: 'success' })
   } catch (err: any) {
     toast.add({
-      title: 'Upload failed',
-      description: err?.data?.message || err?.message || 'Unable to upload image',
+      title: t('docs.blob.toast.uploadFailed'),
+      description: err?.data?.message || err?.message || t('docs.blob.toast.uploadFailedFallback'),
       color: 'error',
       icon: 'i-lucide-x',
     })
@@ -32,11 +54,11 @@ async function deleteImage(pathname: string) {
   try {
     await $fetch(`/api/images/${encodeURIComponent(pathname)}`, { method: 'DELETE' })
     await refresh()
-    toast.add({ title: 'Image deleted', icon: 'i-lucide-trash', color: 'neutral' })
+    toast.add({ title: t('docs.blob.toast.deleted'), icon: 'i-lucide-trash', color: 'neutral' })
   } catch (err: any) {
     toast.add({
-      title: 'Delete failed',
-      description: err?.data?.message || err?.message || 'Unable to delete image',
+      title: t('docs.blob.toast.deleteFailed'),
+      description: err?.data?.message || err?.message || t('docs.blob.toast.deleteFailedFallback'),
       color: 'error',
       icon: 'i-lucide-x',
     })
@@ -53,12 +75,6 @@ function formatSize(bytes: number) {
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)}KB`
   return `${(bytes / 1024 / 1024).toFixed(1)}MB`
 }
-
-const infoCards = [
-  { icon: 'i-lucide-zap', title: 'Edge CDN', text: 'Files served from the nearest Cloudflare PoP — 300+ locations worldwide.' },
-  { icon: 'i-lucide-shield', title: 'Secure by default', text: 'CSP headers automatically applied. No direct R2 bucket access required.' },
-  { icon: 'i-lucide-infinity', title: 'No size limits', text: 'Store anything from tiny config files to large video assets at the edge.' },
-]
 </script>
 
 <template>
@@ -69,11 +85,11 @@ const infoCards = [
         <UIcon name="i-lucide-image" class="size-5 text-violet-400" />
         <span class="font-mono text-xs text-violet-400 uppercase tracking-widest">hub:blob</span>
       </div>
-      <h1 class="text-4xl font-black tracking-tight text-highlighted mb-3">Blob Storage</h1>
+      <h1 class="text-4xl font-black tracking-tight text-highlighted mb-3">{{ t('docs.blob.title') }}</h1>
       <p class="text-muted text-base leading-relaxed mb-5">
-        Upload and serve files with automatic CDN caching. Powered by
+        {{ t('docs.blob.lead.beforeCode') }}
         <code class="font-mono text-xs bg-violet-500/10 text-violet-400 px-1.5 py-0.5 rounded">hubBlob()</code>
-        — stores to Cloudflare R2 with global edge delivery.
+        {{ t('docs.blob.lead.afterCode') }}
       </p>
       <div class="rounded-lg border dark:border-zinc-800 border-zinc-200 border-l-2 border-l-violet-500 dark:bg-zinc-900 bg-zinc-100 px-4 py-3 font-mono text-sm leading-loose text-muted">
         <span class="text-violet-400">const</span> { blobs } = <span class="text-primary">await</span> blob.<span class="text-primary">list</span>()<br>
@@ -91,8 +107,8 @@ const infoCards = [
       <UFileUpload
         v-model="selectedFile"
         accept="image/png,image/jpeg,image/jpg,image/webp"
-        label="Drop an image here"
-        description="PNG, JPG, or WebP up to 8MB. Click to browse or drag and drop."
+        :label="t('docs.blob.upload.label')"
+        :description="t('docs.blob.upload.description')"
         icon="i-lucide-upload-cloud"
         variant="area"
         size="lg"
@@ -109,10 +125,12 @@ const infoCards = [
       />
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <p class="text-xs text-dimmed font-mono">
-          Selected file is uploaded to R2 through <code class="text-rose-400">/api/images/upload</code>.
+          {{ t('docs.blob.upload.selectedFileHint.beforeCode') }}
+          <code class="text-rose-400">/api/images/upload</code>.
+          {{ t('docs.blob.upload.selectedFileHint.afterCode') }}
         </p>
         <UButton
-          label="Upload Image"
+          :label="t('docs.blob.upload.button')"
           icon="i-lucide-upload"
           :loading="uploading"
           :disabled="!selectedFile"
@@ -127,9 +145,9 @@ const infoCards = [
     <div v-if="(images as any)?.length" class="mb-10">
       <div class="flex items-center justify-between mb-4">
         <span class="font-mono text-xs text-violet-400 uppercase tracking-wider">
-          {{ (images as any).length }} file{{ (images as any).length !== 1 ? 's' : '' }} stored
+          {{ storedImagesLabel }}
         </span>
-        <span class="font-mono text-xs text-dimmed">Click image to delete</span>
+        <span class="font-mono text-xs text-dimmed">{{ t('docs.blob.gallery.deleteHint') }}</span>
       </div>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         <div
@@ -147,7 +165,7 @@ const infoCards = [
             />
             <div class="absolute inset-0 bg-red-500/85 flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               <UIcon name="i-lucide-trash" class="size-6 text-white" />
-              <span class="text-white text-xs font-bold font-mono">Delete</span>
+              <span class="text-white text-xs font-bold font-mono">{{ t('docs.blob.gallery.deleteBadge') }}</span>
             </div>
           </div>
           <div class="mt-1.5 flex items-center justify-between px-0.5">
@@ -161,8 +179,8 @@ const infoCards = [
     <UEmpty
       v-else
       icon="i-lucide-image"
-      title="No images yet"
-      description="Upload your first image above to store it in Cloudflare R2."
+      :title="t('docs.blob.empty.title')"
+      :description="t('docs.blob.empty.description')"
       class="mb-10"
     />
 
