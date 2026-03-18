@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  css: ['~/assets/css/main.css'],
+  css: ["~/assets/css/main.css"],
 
   modules: [
     "@nuxt/scripts",
@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     "@nuxthub/core",
     "@nuxtjs/seo",
     "nuxt-nodemailer",
-    "@nuxtjs/i18n"
+    "@nuxtjs/i18n",
   ],
   devtools: { enabled: true },
   compatibilityDate: "2026-03-18",
@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     preset: "cloudflare_module",
   },
 
-    // SMTP EMAIL
+  // SMTP EMAIL
   nodemailer: {
     from: '"Universal Web Template" <no-reply@example.com>',
     host: "smtp.example.com",
@@ -50,6 +50,17 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: ["@vue/devtools-core", "@vue/devtools-kit"],
+    },
+    build: {
+      rollupOptions: {
+        onwarn(warning, warn) {
+          if (warning.code === "SOURCEMAP_BROKEN") {
+            return;
+          }
+
+          warn(warning);
+        },
+      },
     },
   },
 });
