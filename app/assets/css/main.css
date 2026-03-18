@@ -24,6 +24,11 @@
   --ui-radius: 0.5rem;
 }
 
+
+button {
+  cursor: pointer;
+}
+
 /* Smooth color mode transitions */
 *, *::before, *::after {
   transition-property: background-color, border-color;
@@ -32,10 +37,10 @@
 }
 
 /* Override transition for things that should be instant */
-.no-transition,
+/* .no-transition,
 .no-transition * {
   transition: none !important;
-}
+} */
 
 /* Terminal blinking cursor */
 @keyframes blink {

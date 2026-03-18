@@ -5,32 +5,42 @@ useSeoMeta({ title: 'Blob Storage · NuxtEdge ' })
 const toast = useToast()
 const { data: images, refresh } = await useFetch('/api/images')
 const uploading = ref(false)
-const uploadFiles = ref<File[]>([])
+const selectedFile = ref<File | null>(null)
+const upload = useUpload('/api/images/upload', { multiple: false })
 
 async function handleUpload() {
-  if (!uploadFiles.value.length) return
+  if (!selectedFile.value || uploading.value) return
   uploading.value = true
-  const upload = useUpload('/api/images/upload', { multiple: false })
-  const dt = new DataTransfer()
-  uploadFiles.value.forEach(f => dt.items.add(f))
-  const input = document.createElement('input')
-  input.type = 'file'
-  input.name = 'image'
-  Object.defineProperty(input, 'files', { value: dt.files })
-  await upload(input)
-    .then(async () => {
-      uploadFiles.value = []
-      await refresh()
-      toast.add({ title: 'Image uploaded', icon: 'i-lucide-check', color: 'success' })
+  try {
+    await upload(selectedFile.value)
+    selectedFile.value = null
+    await refresh()
+    toast.add({ title: 'Image uploaded', icon: 'i-lucide-check', color: 'success' })
+  } catch (err: any) {
+    toast.add({
+      title: 'Upload failed',
+      description: err?.data?.message || err?.message || 'Unable to upload image',
+      color: 'error',
+      icon: 'i-lucide-x',
     })
-    .catch(err => toast.add({ title: 'Upload failed', description: err.data?.message || err.message, color: 'error', icon: 'i-lucide-x' }))
-  uploading.value = false
+  } finally {
+    uploading.value = false
+  }
 }
 
 async function deleteImage(pathname: string) {
-  await $fetch(`/api/images/${pathname}`, { method: 'DELETE' })
-  await refresh()
-  toast.add({ title: 'Image deleted', icon: 'i-lucide-trash', color: 'neutral' })
+  try {
+    await $fetch(`/api/images/${encodeURIComponent(pathname)}`, { method: 'DELETE' })
+    await refresh()
+    toast.add({ title: 'Image deleted', icon: 'i-lucide-trash', color: 'neutral' })
+  } catch (err: any) {
+    toast.add({
+      title: 'Delete failed',
+      description: err?.data?.message || err?.message || 'Unable to delete image',
+      color: 'error',
+      icon: 'i-lucide-x',
+    })
+  }
 }
 
 function getFilename(pathname: string) {
@@ -74,19 +84,35 @@ const infoCards = [
     <!-- Upload -->
     <div class="mb-8">
       <UFileUpload
-        v-model="uploadFiles"
-        accept="image/png,image/jpeg,image/jpg"
+        v-model="selectedFile"
+        accept="image/png,image/jpeg,image/jpg,image/webp"
+        label="Drop an image here"
+        description="PNG, JPG, or WebP up to 8MB. Click to browse or drag and drop."
+        icon="i-lucide-upload-cloud"
         variant="area"
+        size="lg"
+        :ui="{
+          root: 'dark:bg-zinc-900 dark:border-zinc-800 border-zinc-200',
+          base: 'min-h-52 rounded-2xl border border-dashed border-rose-500/20 bg-gradient-to-b from-zinc-950 to-zinc-900 shadow-lg shadow-black/20 transition-colors duration-200 hover:border-rose-500/40',
+          wrapper: 'gap-3',
+          label: 'text-base font-semibold text-highlighted',
+          description: 'text-sm text-muted max-w-sm',
+          files: 'mt-4 grid gap-3',
+          file: 'rounded-xl border border-zinc-800 bg-zinc-950/80 px-3 py-2',
+        }"
         class="mb-4"
       />
-      <div class="flex justify-end">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <p class="text-xs text-dimmed font-mono">
+          Selected file is uploaded to R2 through <code class="text-rose-400">/api/images/upload</code>.
+        </p>
         <UButton
           label="Upload Image"
           icon="i-lucide-upload"
           :loading="uploading"
-          :disabled="!uploadFiles.length"
+          :disabled="!selectedFile"
           color="neutral"
-          variant="outline"
+          variant="solid"
           @click="handleUpload"
         />
       </div>

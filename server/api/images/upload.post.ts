@@ -5,7 +5,7 @@ export default eventHandler(async (event) => {
     multiple: false,
     ensure: {
       maxSize: '8MB',
-      types: ['image/png', 'image/jpeg'],
+      types: ['image/png', 'image/jpeg', 'image/webp'],
     },
   })
 })

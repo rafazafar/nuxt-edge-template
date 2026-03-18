@@ -8,6 +8,7 @@ useSeoMeta({
 
 const { data: messages } = await useFetch('/api/messages')
 const { data: images } = await useFetch('/api/images')
+const FeatureLink = resolveComponent('NuxtLink')
 
 const messageCount = computed(() => messages.value?.length ?? 0)
 const imageCount = computed(() => (images.value as any)?.length ?? 0)
@@ -44,6 +45,22 @@ const features = computed(() => [
     to: '/cache',
     badge: 'Zero-config',
     code: "cachedEventHandler(fn, { maxAge: 60 })",
+  },
+  {
+    title: 'Email',
+    description: 'Send transactional email from the edge with a provider-ready foundation for notifications and workflows.',
+    icon: 'i-lucide-mail',
+    badge: 'Planned',
+    code: 'nodemailer.sendMail(...)',
+    disabled: true,
+  },
+  {
+    title: 'AI Ready',
+    description: 'Agents and skills are loaded for fast development, with a workflow ready for AI-assisted builds.',
+    icon: 'i-lucide-sparkles',
+    badge: 'Ready',
+    code: '$skill("agents")',
+    accent: 'success',
   },
 ])
 
@@ -160,32 +177,63 @@ const terminalLines = [
       :ui="{ headline: 'text-primary font-mono tracking-widest', title: 'text-highlighted font-extrabold tracking-tight' }"
     >
       <UPageGrid>
-        <NuxtLink
+        <component
+          :is="f.to ? FeatureLink : 'div'"
           v-for="f in features"
           :key="f.title"
-          :to="f.to"
-          class="group block h-full"
+          v-bind="f.to ? { to: f.to } : {}"
+          :class="f.to ? 'group block h-full' : 'block h-full'"
+          :aria-disabled="f.to ? undefined : 'true'"
+          :tabindex="f.to ? undefined : -1"
         >
           <UCard
             class="h-full transition-colors duration-200"
-            :ui="{ root: 'dark:bg-zinc-900 dark:border-zinc-800 group-hover:border-primary/30 h-full' }"
+            :ui="{
+              root: f.accent === 'success'
+                ? 'dark:bg-zinc-900 dark:border-zinc-800 group-hover:border-success/30 h-full'
+                : f.to
+                  ? 'dark:bg-zinc-900 dark:border-zinc-800 group-hover:border-primary/30 h-full'
+                  : 'dark:bg-zinc-900/60 dark:border-zinc-800 border-zinc-200 opacity-70 h-full',
+            }"
           >
             <div class="flex flex-col gap-3 h-full">
               <div class="flex items-start justify-between">
-                <UIcon :name="f.icon" class="size-6 text-primary" />
-                <UBadge :label="f.badge" variant="subtle" size="sm" class="font-mono text-[10px]" />
+                <UIcon
+                  :name="f.icon"
+                  :class="f.accent === 'success' ? 'size-6 text-success' : f.to ? 'size-6 text-primary' : 'size-6 text-dimmed'
+                  "
+                />
+                <UBadge
+                  :label="f.badge"
+                  :color="f.accent === 'success' ? 'success' : f.to ? 'primary' : 'neutral'"
+                  variant="subtle"
+                  size="sm"
+                  class="font-mono text-[10px]"
+                />
               </div>
               <div>
-                <h3 class="font-bold text-base text-highlighted mb-1">{{ f.title }}</h3>
+                <h3
+                  class="font-bold text-base mb-1"
+                  :class="f.accent === 'success' ? 'text-success' : f.to ? 'text-highlighted' : 'text-dimmed'"
+                >
+                  {{ f.title }}
+                </h3>
                 <p class="text-sm text-muted leading-relaxed">{{ f.description }}</p>
               </div>
               <div class="mt-auto pt-3 border-t dark:border-zinc-800 border-zinc-200">
-                <code class="text-xs font-mono text-primary/70 block truncate mb-2">{{ f.code }}</code>
-                <span class="text-xs font-bold text-primary">Explore →</span>
+                <code
+                  class="text-xs font-mono block truncate mb-2"
+                  :class="f.accent === 'success' ? 'text-success/70' : f.to ? 'text-primary/70' : 'text-dimmed/70'"
+                >
+                  {{ f.code }}
+                </code>
+                <span class="text-xs font-bold" :class="f.accent === 'success' ? 'text-success' : f.to ? 'text-primary' : 'text-dimmed'">
+                  {{ f.to ? 'Explore →' : f.accent === 'success' ? 'Ready' : 'Coming soon' }}
+                </span>
               </div>
             </div>
           </UCard>
-        </NuxtLink>
+        </component>
       </UPageGrid>
     </UPageSection>
 
