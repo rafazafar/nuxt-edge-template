@@ -1,6 +1,15 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ["@nuxthub/core"],
+  modules: [
+    "@nuxthub/core",
+    "@nuxtjs/seo",
+    "@nuxt/test-utils",
+    "@nuxt/ui",
+    "@nuxt/hints",
+    "@nuxt/scripts",
+    "nuxt-nodemailer",
+    "@nuxtjs/kinde",
+  ],
   devtools: { enabled: true },
   compatibilityDate: "2026-03-18",
 
