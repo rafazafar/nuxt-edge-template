@@ -1,0 +1,66 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"main": "./.output/server/index.mjs",
+	"compatibility_date": "2026-01-31",
+	"assets": {
+		"binding": "ASSETS",
+		"directory": "./.output/public/"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	/**
+	 * Smart Placement
+	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
+	 */
+	"placement": {  "mode": "smart" },
+	/**
+	 * Bindings
+	 * Bindings allow your Worker to interact with resources on the Cloudflare Developer Platform, including
+	 * databases, object storage, AI inference, real-time communication and more.
+	 * https://developers.cloudflare.com/workers/runtime-apis/bindings/
+	 */
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_id": "a30aa564-d388-493b-8994-23f8dfd129f5",
+			"migrations_table": "_hub_migrations",
+			"migrations_dir": ".output/server/db/migrations/sqlite/",
+		}
+	],
+	"kv_namespaces": [
+		{
+			"binding": "KV",
+			"id": "ba6f3913de344cb1a833f3cf20ba5aa8"
+		},
+		{
+			"binding": "CACHE",
+			"id": "ba6f3913de344cb1a833f3cf20ba5aa8"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "BLOB",
+			"bucket_name": "hub-starter-p2s5"
+		}
+	]
+	/**
+	 * Environment Variables
+	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
+	 * Note: Use secrets to store sensitive data.
+	 * https://developers.cloudflare.com/workers/configuration/secrets/
+	 */
+	// "vars": {  "MY_VARIABLE": "production_value" }
+	/**
+	 * Service Bindings (communicate between multiple Workers)
+	 * https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings
+	 */
+	// "services": [  {   "binding": "MY_SERVICE",   "service": "my-service"  } ]
+}
