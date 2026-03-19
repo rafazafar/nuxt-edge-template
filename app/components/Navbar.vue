@@ -3,6 +3,7 @@
     :ui="{
       root: 'dark:bg-[#05050e]/80 bg-[#f7f6f3]/80 dark:border-white/5 border-black/8 backdrop-blur-xl',
     }"
+    :to="localePath('/')"
   >
     <template #title>
       <div class="flex items-center gap-2.5">
@@ -57,19 +58,20 @@ type LocaleOption = {
 };
 
 const { t, locale, locales } = useI18n();
+const localePath = useLocalePath();
 const switchLocalePath = useSwitchLocalePath();
 
 const fallbackLocaleLabel = (code: string) => code.toUpperCase();
 
 const navItems = computed<NavigationMenuItem[]>(() => [
-  { label: t("nav.items.agents"), to: "/docs/agents", icon: "i-lucide-bot" },
-  { label: t("nav.items.aiSdk"), to: "/docs/ai-sdk", icon: "i-lucide-sparkles" },
-  { label: t("nav.items.db"), to: "/docs/db", icon: "i-lucide-database" },
-  { label: t("nav.items.blob"), to: "/docs/blob", icon: "i-lucide-image" },
-  { label: t("nav.items.kv"), to: "/docs/kv", icon: "i-lucide-key-round" },
-  { label: t("nav.items.cache"), to: "/docs/cache", icon: "i-lucide-zap" },
-  { label: t("nav.items.email"), to: "/docs/email", icon: "i-lucide-mail" },
-  { label: t("nav.items.i18n"), to: "/docs/i18n", icon: "i-lucide-languages" },
+  { label: t("nav.items.agents"), to: localePath("/docs/agents"), icon: "i-lucide-bot" },
+  { label: t("nav.items.aiSdk"), to: localePath("/docs/ai-sdk"), icon: "i-lucide-sparkles" },
+  { label: t("nav.items.db"), to: localePath("/docs/db"), icon: "i-lucide-database" },
+  { label: t("nav.items.blob"), to: localePath("/docs/blob"), icon: "i-lucide-image" },
+  { label: t("nav.items.kv"), to: localePath("/docs/kv"), icon: "i-lucide-key-round" },
+  { label: t("nav.items.cache"), to: localePath("/docs/cache"), icon: "i-lucide-zap" },
+  { label: t("nav.items.email"), to: localePath("/docs/email"), icon: "i-lucide-mail" },
+  { label: t("nav.items.i18n"), to: localePath("/docs/i18n"), icon: "i-lucide-languages" },
 ]);
 
 const localeOptions = computed<LocaleOption[]>(() =>

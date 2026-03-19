@@ -4,6 +4,7 @@ import type { ButtonProps } from '@nuxt/ui'
 definePageMeta({ layout: 'default' })
 
 const { t, tm, rt } = useI18n()
+const localePath = useLocalePath()
 
 const pageTitle = computed(() => t('home.seo.title'))
 const pageDescription = computed(() => t('home.seo.description'))
@@ -15,8 +16,6 @@ useSeoMeta({
 
 const { data: messages } = await useFetch('/api/messages')
 const { data: images } = await useFetch('/api/images')
-const FeatureLink = resolveComponent('NuxtLink')
-
 const messageCount = computed(() => messages.value?.length ?? 0)
 const imageCount = computed(() => (images.value as any)?.length ?? 0)
 
@@ -55,7 +54,7 @@ const features = computed<Feature[]>(() => [
     title: t('home.features.db.title'),
     description: t('home.features.db.description'),
     icon: 'i-lucide-database',
-    to: '/docs/db',
+    to: localePath('/docs/db'),
     badge: t('home.features.db.badge', { count: messageCount.value }),
     code: 'db.select().from(tables.messages)',
     status: 'explore' as FeatureStatus,
@@ -72,7 +71,7 @@ const features = computed<Feature[]>(() => [
     title: t('home.features.blob.title'),
     description: t('home.features.blob.description'),
     icon: 'i-lucide-image',
-    to: '/docs/blob',
+    to: localePath('/docs/blob'),
     badge: t('home.features.blob.badge', { count: imageCount.value }),
     code: 'hubBlob().put(filename, file)',
     status: 'explore' as FeatureStatus,
@@ -89,7 +88,7 @@ const features = computed<Feature[]>(() => [
     title: t('home.features.kv.title'),
     description: t('home.features.kv.description'),
     icon: 'i-lucide-key-round',
-    to: '/docs/kv',
+    to: localePath('/docs/kv'),
     badge: t('home.features.kv.badge'),
     code: "hubKV().set('key', value)",
     status: 'explore' as FeatureStatus,
@@ -106,7 +105,7 @@ const features = computed<Feature[]>(() => [
     title: t('home.features.cache.title'),
     description: t('home.features.cache.description'),
     icon: 'i-lucide-zap',
-    to: '/docs/cache',
+    to: localePath('/docs/cache'),
     badge: t('home.features.cache.badge'),
     code: 'cachedEventHandler(fn, { maxAge: 60 })',
     status: 'explore' as FeatureStatus,
@@ -123,7 +122,7 @@ const features = computed<Feature[]>(() => [
     title: t('home.features.i18n.title'),
     description: t('home.features.i18n.description'),
     icon: 'i-lucide-languages',
-    to: '/docs/i18n',
+    to: localePath('/docs/i18n'),
     badge: t('home.features.i18n.badge'),
     code: 'i18n.locales = [...]',
     status: 'explore' as FeatureStatus,
@@ -140,7 +139,7 @@ const features = computed<Feature[]>(() => [
     title: t('home.features.aiSdk.title'),
     description: t('home.features.aiSdk.description'),
     icon: 'i-lucide-sparkles',
-    to: '/docs/ai-sdk',
+    to: localePath('/docs/ai-sdk'),
     badge: t('home.features.aiSdk.badge'),
     code: 'streamText({ model: workersai(model) })',
     status: 'ready' as FeatureStatus,
@@ -157,7 +156,7 @@ const features = computed<Feature[]>(() => [
     title: t('home.features.email.title'),
     description: t('home.features.email.description'),
     icon: 'i-lucide-mail',
-    to: '/docs/email',
+    to: localePath('/docs/email'),
     badge: t('home.features.email.badge'),
     code: 'nodemailer.sendMail(...)',
     status: 'ready' as FeatureStatus,
@@ -174,7 +173,7 @@ const features = computed<Feature[]>(() => [
     title: t('home.features.agents.title'),
     description: t('home.features.agents.description'),
     icon: 'i-lucide-sparkles',
-    to: '/docs/agents',
+    to: localePath('/docs/agents'),
     badge: t('home.features.agents.badge'),
     code: 'Use Codex with repo skills',
     status: 'ready' as FeatureStatus,
@@ -322,7 +321,7 @@ const ctaLinks = computed<ButtonProps[]>(() => [
             />
             <UButton
               :label="t('home.hero.secondaryCta')"
-              to="/docs/blob"
+              :to="localePath('/docs/blob')"
               color="neutral"
               variant="subtle"
               size="lg"
@@ -375,14 +374,11 @@ const ctaLinks = computed<ButtonProps[]>(() => [
       :ui="{ headline: 'text-primary font-mono tracking-widest', title: 'text-highlighted font-extrabold tracking-tight' }"
     >
       <UPageGrid>
-        <component
-          :is="f.to ? FeatureLink : 'div'"
+        <NuxtLinkLocale
           v-for="f in features"
           :key="f.key"
-          v-bind="f.to ? { to: f.to } : {}"
-          :class="f.to ? 'group block h-full' : 'block h-full'"
-          :aria-disabled="f.to ? undefined : 'true'"
-          :tabindex="f.to ? undefined : -1"
+          :to="f.to ?? '#'"
+          class="block h-full"
         >
           <UCard
             class="h-full transition-colors duration-200"
@@ -423,7 +419,7 @@ const ctaLinks = computed<ButtonProps[]>(() => [
               </div>
             </div>
           </UCard>
-        </component>
+        </NuxtLinkLocale>
       </UPageGrid>
     </UPageSection>
 
