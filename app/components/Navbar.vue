@@ -21,15 +21,27 @@
     <UNavigationMenu :items="navItems" />
 
     <template #right>
-      <USelectMenu
-        v-model="selectedLocale"
-        :aria-label="t('nav.switcherAriaLabel')"
+      <UDropdownMenu
         :items="localeOptions"
-        value-key="code"
-        label-key="label"
-        :search-input="false"
-        class="w-32"
-      />
+        :content="{ align: 'end' }"
+      >
+        <UButton
+          color="neutral"
+          variant="ghost"
+          icon="i-lucide-languages"
+          :aria-label="t('nav.switcherAriaLabel')"
+        />
+
+        <template #item="{ item }">
+          <SwitchLocalePathLink
+            :locale="item.code"
+            class="flex w-full items-center rounded-md px-2 py-1.5 text-sm"
+            :class="item.code === locale ? 'text-highlighted font-medium' : 'text-default'"
+          >
+            {{ item.label }}
+          </SwitchLocalePathLink>
+        </template>
+      </UDropdownMenu>
 
       <UColorModeButton>
         <template #fallback>
@@ -50,16 +62,16 @@
 
 <script lang="ts" setup>
 import type { NavigationMenuItem } from "@nuxt/ui";
-import { computed, ref, watch } from "vue";
+import { computed } from "vue";
 
 type LocaleOption = {
-  code: string;
+  code: LocaleCode;
   label: string;
 };
 
 const { t, locale, locales } = useI18n();
 const localePath = useLocalePath();
-const switchLocalePath = useSwitchLocalePath();
+type LocaleCode = typeof locale.value;
 
 const fallbackLocaleLabel = (code: string) => code.toUpperCase();
 
@@ -77,34 +89,16 @@ const navItems = computed<NavigationMenuItem[]>(() => [
 const localeOptions = computed<LocaleOption[]>(() =>
   locales.value.map((entry) => {
     if (typeof entry === "string") {
-      return { code: entry, label: fallbackLocaleLabel(entry) };
+      return { code: entry as LocaleCode, label: fallbackLocaleLabel(entry) };
     }
 
     return {
-      code: entry.code,
+      code: entry.code as LocaleCode,
       label: entry.name ?? fallbackLocaleLabel(String(entry.code)),
     };
   }),
 );
 
-const selectedLocale = ref(locale.value);
-
-watch(locale, (currentLocale) => {
-  selectedLocale.value = currentLocale;
-});
-
-watch(selectedLocale, async (nextLocale, previousLocale) => {
-  if (!nextLocale || nextLocale === previousLocale) {
-    return;
-  }
-
-  const targetPath = switchLocalePath(nextLocale);
-  if (!targetPath) {
-    return;
-  }
-
-  await navigateTo(targetPath);
-});
 </script>
 
 <style></style>
