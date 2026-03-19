@@ -108,12 +108,12 @@
       { "label": "Edge PoP 数" }
     ],
     "terminal": [
-      { "type": "prompt", "text": "pnpx install" },
+      { "type": "prompt", "text": "pnpm install" },
       { "type": "muted", "text": "依存関係をインストール中..." },
       { "type": "muted", "text": "AI Agent Skills をインストール中" },
       { "type": "green", "text": "プロジェクトの作成に成功しました" },
       { "type": "empty" },
-      { "type": "prompt", "text": "pnpx wrangler deploy" },
+      { "type": "prompt", "text": "pnpm run deploy" },
       { "type": "muted", "text": "Cloudflare Workers 向けにビルド中..." },
       { "type": "muted", "text": "データベースをマイグレーション中..." },
       { "type": "muted", "text": "300 以上のエッジノードへアップロード中..." },

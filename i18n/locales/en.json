@@ -108,12 +108,12 @@
       { "label": "Edge PoPs" }
     ],
     "terminal": [
-      { "type": "prompt", "text": "pnpx install" },
+      { "type": "prompt", "text": "pnpm install" },
       { "type": "muted", "text": "Installing dependencies..." },
       { "type": "muted", "text": "Installing AI Agent Skills" },
       { "type": "green", "text": "Project created successfully" },
       { "type": "empty" },
-      { "type": "prompt", "text": "pnpx wrangler deploy" },
+      { "type": "prompt", "text": "pnpm run deploy" },
       { "type": "muted", "text": "Building for Cloudflare Workers..." },
       { "type": "muted", "text": "Migrating database..." },
       { "type": "muted", "text": "Uploading to 300+ edge nodes..." },
