@@ -322,7 +322,7 @@ const ctaLinks = computed<ButtonProps[]>(() => [
             />
             <UButton
               :label="t('home.hero.secondaryCta')"
-              to="/docs/db"
+              to="/docs/blob"
               color="neutral"
               variant="subtle"
               size="lg"
