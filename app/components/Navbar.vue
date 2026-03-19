@@ -5,7 +5,7 @@
     }"
   >
     <template #title>
-      <NuxtLink to="/" class="flex items-center gap-2.5">
+      <div class="flex items-center gap-2.5">
         <UIcon name="i-lucide-layers" class="size-5 text-primary" />
         <span class="font-bold text-base tracking-tight">NuxtEdge</span>
         <UBadge
@@ -14,7 +14,7 @@
           size="sm"
           class="uppercase font-mono text-[10px]"
         />
-      </NuxtLink>
+      </div>
     </template>
 
     <UNavigationMenu :items="navItems" />
@@ -63,6 +63,7 @@ const fallbackLocaleLabel = (code: string) => code.toUpperCase();
 
 const navItems = computed<NavigationMenuItem[]>(() => [
   { label: t("nav.items.agents"), to: "/docs/agents", icon: "i-lucide-bot" },
+  { label: t("nav.items.aiSdk"), to: "/docs/ai-sdk", icon: "i-lucide-sparkles" },
   { label: t("nav.items.db"), to: "/docs/db", icon: "i-lucide-database" },
   { label: t("nav.items.blob"), to: "/docs/blob", icon: "i-lucide-image" },
   { label: t("nav.items.kv"), to: "/docs/kv", icon: "i-lucide-key-round" },

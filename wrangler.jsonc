@@ -53,6 +53,19 @@
 		}
 	],
 	/**
+	
+
+	/**
+	 * Workers AI
+	 * Uncomment this binding to enable Workers AI in the template.
+	 * Use `remote: true` for local development because Workers AI runs remotely.
+	 * https://developers.cloudflare.com/workers-ai/configuration/bindings/
+	 */
+	// "ai": {
+	// 	"binding": "AI",
+	// 	"remote": true
+	// },
+	/**
 	 * Environment Variables
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
 	 * Note: Use secrets to store sensitive data.

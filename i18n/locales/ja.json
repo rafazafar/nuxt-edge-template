@@ -8,6 +8,7 @@
     "switcherAriaLabel": "言語を切り替える",
     "items": {
       "agents": "AI DX",
+      "aiSdk": "AI SDK",
       "db": "データベース",
       "blob": "Blob",
       "kv": "KV ストア",
@@ -63,6 +64,11 @@
         "title": "国際化",
         "description": "Nuxt でロケールを設定し、各言語の翻訳文字列を locale JSON ファイルにまとめて管理します。",
         "badge": "ja / en"
+      },
+      "aiSdk": {
+        "title": "AI SDK",
+        "description": "Cloudflare Workers AI を使うための再利用しやすい helper、モデル切り替え、ストリーミング対応エンドポイントをまとめています。",
+        "badge": "Workers AI"
       },
       "email": {
         "title": "メール",
@@ -177,6 +183,70 @@
         "verifyChange": "変更内容が typecheck やテスト対象なら、Codex に検証を依頼する。",
         "goodExample": "Good: `/nuxthub` add a simple favorites API and wire it into the UI.",
         "weakExample": "Weak: Do something with storage."
+      }
+    },
+    "aiSdk": {
+      "seo": {
+        "title": "AI SDK · NuxtEdge",
+        "description": "Cloudflare Workers AI の再利用可能な utility と、テキスト生成・ストリーミングのライブデモをまとめたページです。"
+      },
+      "title": "AI SDK",
+      "lead": {
+        "beforeCode": "Nuxt から Cloudflare Workers AI を使うには",
+        "afterCode": "で provider を作り、同じ server helper を通常生成とストリーミングの両方で再利用します。"
+      },
+      "usageNote": "Workers AI のローカル開発は Cloudflare のリモートサービスを使います。先に Wrangler を認証し、ローカル mock ではなく実際の利用が発生する前提で試してください。",
+      "demo": {
+        "title": "AI SDK ライブデモ",
+        "subtitle": "再利用できる Nitro ルート経由で Workers AI モデルを試します",
+        "readyBadge": "準備完了",
+        "streamingBadge": "配信中"
+      },
+      "form": {
+        "promptLabel": "プロンプト",
+        "promptPlaceholder": "このテンプレートに AI SDK 機能を追加したときの短いリリースノートを書いてください。",
+        "systemLabel": "システム",
+        "systemPlaceholder": "あなたは開発者向けに簡潔に書くスタッフエンジニアです。",
+        "modelLabel": "モデル",
+        "modelSearchPlaceholder": "テキスト生成モデルを検索",
+        "modelHint": "model 文字列を差し替えるだけで、server utility を変えずに別の Workers AI テキストモデルを試せます。"
+      },
+      "actions": {
+        "generate": "生成",
+        "stream": "ストリーム",
+        "stop": "停止"
+      },
+      "output": {
+        "title": "レスポンス",
+        "idle": "Generate か Stream を押して、再利用可能な Workers AI エンドポイントを試してください。",
+        "errorTitle": "リクエスト失敗",
+        "streaming": "トークンを配信中...",
+        "waiting": "モデルの出力を待っています...",
+        "status": {
+          "idle": "待機中",
+          "generating": "生成中",
+          "streaming": "配信中",
+          "done": "完了",
+          "error": "エラー"
+        }
+      },
+      "errors": {
+        "fallback": "AI エンドポイントに接続できませんでした。",
+        "emptyStream": "ストリームは開始されましたが、レスポンス本文がありませんでした。"
+      },
+      "infoCards": {
+        "binding": {
+          "title": "直接 binding",
+          "text": "provider は Nitro の Cloudflare event context から `env.AI` を読むので、Cloudflare の公式パターンに近い形で保てます。"
+        },
+        "utils": {
+          "title": "再利用できる server utility",
+          "text": "入力整形、設定検証、JSON ルートとストリーミングルートの共通処理を 1 つの utility にまとめています。"
+        },
+        "models": {
+          "title": "モデル切り替え",
+          "text": "デモでは model id を直接編集できるので、ページを変えずに別の Workers AI テキストモデルを試せます。"
+        }
       }
     },
     "i18n": {

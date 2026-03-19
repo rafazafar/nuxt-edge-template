@@ -136,6 +136,23 @@ const features = computed<Feature[]>(() => [
     },
   },
   {
+    key: 'aiSdk',
+    title: t('home.features.aiSdk.title'),
+    description: t('home.features.aiSdk.description'),
+    icon: 'i-lucide-sparkles',
+    to: '/docs/ai-sdk',
+    badge: t('home.features.aiSdk.badge'),
+    code: 'streamText({ model: workersai(model) })',
+    status: 'ready' as FeatureStatus,
+    ui: {
+      cardRootClass: 'dark:bg-zinc-900 dark:border-zinc-800 group-hover:border-sky-400/30 bg-sky-500/[0.03] h-full',
+      iconClass: 'size-6 text-sky-400',
+      badgeColor: 'info' as const,
+      codeClass: 'text-sky-400/70',
+      statusClass: 'text-sky-400',
+    },
+  },
+  {
     key: 'email',
     title: t('home.features.email.title'),
     description: t('home.features.email.description'),

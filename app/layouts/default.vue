@@ -1,13 +1,18 @@
 <script setup lang="ts">
 const colorMode = useColorMode();
-const isDark = computed(() => colorMode.value === "dark");
+const isMounted = ref(false);
+const isDark = computed(() => isMounted.value && colorMode.value === "dark");
+
+onMounted(() => {
+  isMounted.value = true;
+});
 </script>
 
 <template>
   <div class="relative min-h-screen">
     <!-- ─── Background: solid base (dark only extra layer) ─── -->
     <div
-      v-if="colorMode.value === 'dark'"
+      v-if="isDark"
       class="fixed inset-0 -z-30 pointer-events-none"
       style="
         background:

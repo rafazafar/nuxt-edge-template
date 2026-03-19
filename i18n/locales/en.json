@@ -8,6 +8,7 @@
     "switcherAriaLabel": "Switch language",
     "items": {
       "agents": "AI DX",
+      "aiSdk": "AI SDK",
       "db": "Database",
       "blob": "Blob",
       "kv": "KV Store",
@@ -63,6 +64,11 @@
         "title": "Internationalization",
         "description": "Configure locales in Nuxt and store translation strings in locale JSON files for each language.",
         "badge": "ja / en"
+      },
+      "aiSdk": {
+        "title": "AI SDK",
+        "description": "Reusable Workers AI helpers with clean server utilities, model swaps, and streaming-ready endpoints.",
+        "badge": "Workers AI"
       },
       "email": {
         "title": "Email",
@@ -177,6 +183,70 @@
         "verifyChange": "Ask Codex to verify when the change should be typechecked or tested.",
         "goodExample": "Good: `/nuxthub` add a simple favorites API and wire it into the UI.",
         "weakExample": "Weak: Do something with storage."
+      }
+    },
+    "aiSdk": {
+      "seo": {
+        "title": "AI SDK · NuxtEdge",
+        "description": "Reusable Cloudflare Workers AI utilities with a live text-generation and streaming demo."
+      },
+      "title": "AI SDK",
+      "lead": {
+        "beforeCode": "Wire Cloudflare Workers AI into Nuxt with",
+        "afterCode": "then reuse the same server helper for one-shot generation and streaming responses."
+      },
+      "usageNote": "Workers AI local development uses Cloudflare's remote service. Authenticate Wrangler first, and expect live usage instead of a local mock.",
+      "demo": {
+        "title": "Live AI SDK Demo",
+        "subtitle": "Prompt a Workers AI model through reusable Nitro routes",
+        "readyBadge": "Ready",
+        "streamingBadge": "Streaming"
+      },
+      "form": {
+        "promptLabel": "Prompt",
+        "promptPlaceholder": "Draft a concise release note for a new AI SDK feature in this template.",
+        "systemLabel": "System",
+        "systemPlaceholder": "You are a concise staff engineer writing for other developers.",
+        "modelLabel": "Model",
+        "modelSearchPlaceholder": "Search text-generation models",
+        "modelHint": "Swap the model string to test another Workers AI text model without changing the server utility."
+      },
+      "actions": {
+        "generate": "Generate",
+        "stream": "Stream",
+        "stop": "Stop"
+      },
+      "output": {
+        "title": "Response",
+        "idle": "Choose Generate or Stream to test the reusable Workers AI endpoints.",
+        "errorTitle": "Request failed",
+        "streaming": "Streaming tokens...",
+        "waiting": "Waiting for model output...",
+        "status": {
+          "idle": "Idle",
+          "generating": "Generating",
+          "streaming": "Streaming",
+          "done": "Done",
+          "error": "Error"
+        }
+      },
+      "errors": {
+        "fallback": "Unable to reach the AI endpoint.",
+        "emptyStream": "The stream started without a response body."
+      },
+      "infoCards": {
+        "binding": {
+          "title": "Direct binding",
+          "text": "The provider reads `env.AI` through Nitro's Cloudflare event context, so the helper stays close to Cloudflare's official pattern."
+        },
+        "utils": {
+          "title": "Reusable server utils",
+          "text": "One shared utility normalizes input, validates config, and powers both the JSON endpoint and the streaming endpoint."
+        },
+        "models": {
+          "title": "Model swaps",
+          "text": "The demo keeps the model id editable, so template users can test another Workers AI text model without changing the page."
+        }
       }
     },
     "i18n": {
