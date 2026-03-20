@@ -44,7 +44,12 @@ export default defineNuxtConfig({
     db: "sqlite",
     kv: true,
     blob: true,
-    cache: true,
+    cache: true
+  },
+
+  routeRules:{
+    '*': { swr: true, prerender: true },
+    '/docs/**': { swr: true },
   },
 
   // DO NOT EDIT BELOW THIS LINE unless you know what you are doing.
