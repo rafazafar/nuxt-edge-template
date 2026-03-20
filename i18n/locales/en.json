@@ -242,10 +242,6 @@
         "utils": {
           "title": "Reusable server utils",
           "text": "One utility normalizes input, validates config, and powers both JSON and streaming endpoints."
-        },
-        "models": {
-          "title": "Model swaps",
-          "text": "The model id stays editable, so you can test another Workers AI model without changing the page."
         }
       }
     },

@@ -24,18 +24,6 @@ type ModelOption = {
 
 const modelOptions: ModelOption[] = [
   {
-    label: "GLM 4.7 Flash",
-    value: "@cf/zai-org/glm-4.7-flash",
-    vendor: "Zhipu AI",
-    note: "Fast multilingual default with long context and tool calling",
-  },
-  {
-    label: "Kimi K2.5",
-    value: "@cf/moonshotai/kimi-k2-instruct",
-    vendor: "Moonshot AI",
-    note: "Frontier-scale reasoning and tool-calling model",
-  },
-  {
     label: "GPT OSS 120B",
     value: "@cf/openai/gpt-oss-120b",
     vendor: "OpenAI",
@@ -162,24 +150,6 @@ const outputModel = ref(DEFAULT_AI_MODEL);
 const errorMessage = ref<string | null>(null);
 const status = ref<"idle" | "generating" | "streaming" | "done" | "error">("idle");
 const abortController = shallowRef<AbortController | null>(null);
-
-const infoCards = computed(() => [
-  {
-    icon: "i-lucide-plug",
-    title: t("docs.aiSdk.infoCards.binding.title"),
-    text: t("docs.aiSdk.infoCards.binding.text"),
-  },
-  {
-    icon: "i-lucide-box",
-    title: t("docs.aiSdk.infoCards.utils.title"),
-    text: t("docs.aiSdk.infoCards.utils.text"),
-  },
-  {
-    icon: "i-lucide-repeat",
-    title: t("docs.aiSdk.infoCards.models.title"),
-    text: t("docs.aiSdk.infoCards.models.text"),
-  },
-]);
 
 const isBusy = computed(() => status.value === "generating" || status.value === "streaming");
 const isStreaming = computed(() => status.value === "streaming");
@@ -526,16 +496,5 @@ function stopStreaming() {
       </UCard>
     </div>
 
-    <div class="grid sm:grid-cols-3 gap-4">
-      <UCard
-        v-for="card in infoCards"
-        :key="card.title"
-        :ui="{ root: 'dark:bg-zinc-900 dark:border-zinc-800' }"
-      >
-        <UIcon :name="card.icon" class="size-5 text-sky-400 mb-3" />
-        <p class="font-bold text-sm text-highlighted mb-1">{{ card.title }}</p>
-        <p class="text-xs text-muted leading-relaxed">{{ card.text }}</p>
-      </UCard>
-    </div>
   </UContainer>
 </template>

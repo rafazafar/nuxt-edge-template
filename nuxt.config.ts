@@ -47,9 +47,35 @@ export default defineNuxtConfig({
     cache: true,
   },
 
+  // DO NOT EDIT BELOW THIS LINE unless you know what you are doing.
+
   vite: {
     optimizeDeps: {
       include: ["@vue/devtools-core", "@vue/devtools-kit"],
     },
+    plugins: [
+      {
+        apply: "build",
+        name: "vite-plugin-ignore-sourcemap-warnings",
+        configResolved(config) {
+          const originalOnWarn = config.build.rollupOptions.onwarn;
+          config.build.rollupOptions.onwarn = (warning, warn) => {
+            if (
+              warning.code === "SOURCEMAP_BROKEN" &&
+              warning.plugin === "@tailwindcss/vite:generate:build" ||
+              warning.plugin === "nuxt:module-preload-polyfill"
+            ) {
+              return;
+            }
+
+            if (originalOnWarn) {
+              originalOnWarn(warning, warn);
+            } else {
+              warn(warning);
+            }
+          };
+        },
+      },
+    ],
   },
 });
