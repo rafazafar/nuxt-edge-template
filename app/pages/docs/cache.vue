@@ -35,7 +35,7 @@ const {
 const concepts = computed(
   () =>
     (tm('docs.cache.concepts') as Array<{ icon: string; title: string; desc: string }>).map((concept) => ({
-      icon: concept.icon,
+      icon: rt(concept.icon),
       title: rt(concept.title),
       desc: rt(concept.desc),
     })),

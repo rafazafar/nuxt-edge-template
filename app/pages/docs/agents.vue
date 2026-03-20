@@ -29,7 +29,7 @@ const installedSkills = computed<SkillCard[]>(() => [
   },
   {
     name: 'nuxt',
-    icon: 'i-lucide-vuejs',
+    icon: 'i-lucide-file-code-2',
     color: 'success',
     purpose: t('docs.agents.installedSkills.nuxt'),
   },

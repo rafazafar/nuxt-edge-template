@@ -22,7 +22,7 @@ const imageCount = computed(() => (images.value as any)?.length ?? 0)
 const infoCards = computed(
   () =>
     (tm('docs.blob.infoCards') as Array<{ icon: string; title: string; text: string }>).map((card) => ({
-      icon: card.icon,
+      icon: rt(card.icon),
       title: rt(card.title),
       text: rt(card.text),
     })),

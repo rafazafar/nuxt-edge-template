@@ -250,7 +250,7 @@ const stats = computed(() => [
 
 const terminalLines = computed(() =>
   (tm('home.terminal') as Array<{ type: TerminalLine['type']; text?: string }>).map((line) => ({
-    type: line.type,
+    type: rt(line.type) as TerminalLine['type'],
     text: line.text ? rt(line.text) : undefined,
   })),
 )
@@ -344,19 +344,19 @@ const ctaLinks = computed<ButtonProps[]>(() => [
         </div>
 
         <!-- Right: terminal -->
-        <div class="rounded-2xl border border-zinc-800 bg-zinc-900 overflow-hidden shadow-2xl shadow-black/60">
-          <div class="flex items-center gap-2 px-4 py-3 border-b border-zinc-800 bg-zinc-950">
+        <div class="rounded-2xl overflow-hidden bg-inverted ring ring-default shadow-2xl shadow-black/60">
+          <div class="flex items-center gap-2 px-4 py-3 border-b border-default bg-default/10">
             <span class="size-3 rounded-full bg-red-500" />
             <span class="size-3 rounded-full bg-yellow-500" />
             <span class="size-3 rounded-full bg-green-500" />
-            <span class="ml-2 font-mono text-xs text-zinc-500">~/my-nuxthub-app</span>
+            <span class="ml-2 font-mono text-xs text-muted">~/my-nuxthub-app</span>
           </div>
           <div class="p-6 space-y-2.5 font-mono text-sm">
             <div
               v-for="(line, i) in terminalLines"
               :key="i"
               class="leading-relaxed min-h-[1.5rem]"
-              :class="line.type === 'green' ? 'text-primary' : line.type === 'muted' ? 'text-zinc-500' : 'text-zinc-200'"
+              :class="line.type === 'prompt' || line.type === 'green' ? 'text-primary' : line.type === 'muted' ? 'text-muted' : 'text-toned'"
             >
               <span v-if="line.type === 'prompt'" class="text-primary mr-2">❯</span>
               <span v-if="line.type !== 'empty'">{{ line.text }}</span>

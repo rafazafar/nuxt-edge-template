@@ -130,13 +130,13 @@
     "agents": {
       "seo": {
         "title": "AI DX · NuxtEdge",
-        "description": "このリポジトリに最初から入っている Agent Skills の使い方と、素早く開発するための実用的なプロンプト例を紹介します。"
+        "description": "このリポジトリの Agent Skills と実用的なプロンプト例をまとめています。"
       },
       "hero": {
         "kicker": "codex + skills",
         "title": "AI エージェントを",
         "emphasis": "手早く使う",
-        "lead": "このリポジトリには便利な Agent Skills とコーディング手法があらかじめ入っています。やり方はシンプルです。やりたい仕事を自然文で伝え、実装の方向を変えたいときだけ `/nuxt`、`/nuxt-ui`、`/nuxthub` のようなスラッシュ形式のヒントを使います。",
+        "lead": "やりたい作業を自然文で伝えます。実装の方向を指定したいときだけ `/nuxt`、`/nuxt-ui`、`/nuxthub` を添えてください。",
         "badges": {
           "nuxtApp": "Nuxt 4 app",
           "nuxthubStorage": "NuxtHub storage",
@@ -144,18 +144,18 @@
         }
       },
       "repo": {
-        "title": "このリポジトリで使えるもの",
-        "subtitle": "リポジトリレベルの 3 つの Skill で、ここでの作業のほとんどをカバーできます。",
+        "title": "使える Skill",
+        "subtitle": "この 3 つで大半の作業をカバーできます。",
         "badge": "Preinstalled"
       },
       "installedSkills": {
-        "workflowHelper": "リポジトリ標準のワークフロー補助。AI に進め方を任せたい一般的な作業に向いています。",
-        "nuxt": "ページ、レイアウト、サーバールート、composable、Nuxt 固有の実装に最適です。",
-        "nuxthub": "DB、KV、blob、cache など、エッジ対応のフルスタック機能に使います。"
+        "workflowHelper": "一般的な作業向けの標準ワークフロー補助です。",
+        "nuxt": "ページ、レイアウト、ルート、composable、Nuxt 固有の実装向けです。",
+        "nuxthub": "DB、KV、blob、cache などのエッジ機能向けです。"
       },
       "promptExamples": {
         "title": "プロンプト例",
-        "subtitle": "実際に入力する内容に近い例です。",
+        "subtitle": "実際の入力に近い例です。",
         "badge": "書き方の参考",
         "buildPage": {
           "title": "ページを作る",
@@ -176,8 +176,8 @@
       },
       "goodPrompts": {
         "title": "より良い結果を出すコツ",
-        "subtitle": "小さなプロンプトの工夫で結果はかなり変わります。",
-        "knowArea": "作業範囲が分かっているなら `/nuxt`、`/nuxt-ui`、`/nuxthub` を使う。",
+        "subtitle": "少しの工夫で結果が良くなります。",
+        "knowArea": "作業範囲が分かっているなら `/nuxt`、`/nuxt-ui`、`/nuxthub` を付ける。",
         "mentionRoute": "変更したいルート、ファイル、機能を明示する。",
         "describeOutcome": "ツール名ではなく、欲しい結果を説明する。",
         "verifyChange": "変更内容が typecheck やテスト対象なら、Codex に検証を依頼する。",
@@ -188,28 +188,28 @@
     "aiSdk": {
       "seo": {
         "title": "AI SDK · NuxtEdge",
-        "description": "Cloudflare Workers AI の再利用可能な utility と、テキスト生成・ストリーミングのライブデモをまとめたページです。"
+        "description": "Cloudflare Workers AI の再利用可能な utility とライブデモをまとめています。"
       },
       "title": "AI SDK",
       "lead": {
-        "beforeCode": "Nuxt から Cloudflare Workers AI を使うには",
-        "afterCode": "で provider を作り、同じ server helper を通常生成とストリーミングの両方で再利用します。"
+        "beforeCode": "Nuxt から Cloudflare Workers AI を使うなら",
+        "afterCode": "で接続し、1 つの server helper を generate と stream の両方で使います。"
       },
-      "usageNote": "Workers AI のローカル開発は Cloudflare のリモートサービスを使います。先に Wrangler を認証し、ローカル mock ではなく実際の利用が発生する前提で試してください。",
+      "usageNote": "Workers AI のローカル開発は Cloudflare のリモートサービスを使います。先に Wrangler を認証してください。",
       "demo": {
         "title": "AI SDK ライブデモ",
-        "subtitle": "再利用できる Nitro ルート経由で Workers AI モデルを試します",
+        "subtitle": "再利用可能な Nitro ルート経由で Workers AI を試します",
         "readyBadge": "準備完了",
         "streamingBadge": "配信中"
       },
       "form": {
         "promptLabel": "プロンプト",
-        "promptPlaceholder": "このテンプレートに AI SDK 機能を追加したときの短いリリースノートを書いてください。",
+        "promptPlaceholder": "AI SDK の新機能向けに短いリリースノートを書いてください。",
         "systemLabel": "システム",
         "systemPlaceholder": "あなたは開発者向けに簡潔に書くスタッフエンジニアです。",
         "modelLabel": "モデル",
         "modelSearchPlaceholder": "テキスト生成モデルを検索",
-        "modelHint": "model 文字列を差し替えるだけで、server utility を変えずに別の Workers AI テキストモデルを試せます。"
+        "modelHint": "model 文字列を差し替えるだけで、server utility を変えずに別モデルを試せます。"
       },
       "actions": {
         "generate": "生成",
@@ -218,7 +218,7 @@
       },
       "output": {
         "title": "レスポンス",
-        "idle": "Generate か Stream を押して、再利用可能な Workers AI エンドポイントを試してください。",
+        "idle": "Generate か Stream を押して Workers AI エンドポイントを試してください。",
         "errorTitle": "リクエスト失敗",
         "streaming": "トークンを配信中...",
         "waiting": "モデルの出力を待っています...",
@@ -237,22 +237,22 @@
       "infoCards": {
         "binding": {
           "title": "直接 binding",
-          "text": "provider は Nitro の Cloudflare event context から `env.AI` を読むので、Cloudflare の公式パターンに近い形で保てます。"
+          "text": "Nitro の Cloudflare event context から `env.AI` を読み、公式パターンに近い形を保ちます。"
         },
         "utils": {
-          "title": "再利用できる server utility",
-          "text": "入力整形、設定検証、JSON ルートとストリーミングルートの共通処理を 1 つの utility にまとめています。"
+          "title": "再利用できる utility",
+          "text": "入力整形、設定検証、JSON とストリーミングの共通処理を 1 つにまとめています。"
         },
         "models": {
           "title": "モデル切り替え",
-          "text": "デモでは model id を直接編集できるので、ページを変えずに別の Workers AI テキストモデルを試せます。"
+          "text": "model id を直接変えて、ページを触らずに別モデルを試せます。"
         }
       }
     },
     "i18n": {
       "seo": {
         "title": "国際化 · NuxtEdge",
-        "description": "Nuxt の言語設定と、このリポジトリでの locale ファイルの整理方法を短くまとめたガイドです。"
+        "description": "Nuxt の言語設定と locale ファイルの置き方をまとめたガイドです。"
       },
       "hero": {
         "kicker": "i18n",
@@ -266,12 +266,12 @@
         "configureLocales": {
           "title": "1. ロケールを設定する",
           "badge": "nuxt.config.ts",
-          "body": "ここに locale を 1 つ追加すれば、新しい言語を登録できます。Nuxt はここで locale code、label、JSON ファイル名を決めます。"
+          "body": "ここに locale を追加します。locale code、label、JSON ファイル名はここで決まります。"
         },
         "addTranslationFile": {
           "title": "2. 翻訳ファイルを追加する",
           "badge": "./i18n/locales",
-          "body": "各ファイルは単なる JSON 辞書です。locale 間で同じキーを使い、値だけを翻訳します。"
+          "body": "各ファイルは JSON 辞書です。locale 間で同じキーを使い、値だけ翻訳します。"
         }
       },
       "localeFiles": {
@@ -282,7 +282,7 @@
         "title": "編集する箇所",
         "module": {
           "title": "Module",
-          "body": "`{'@'}nuxtjs/i18n` が Nuxt の modules 一覧に入っていることを確認します。"
+          "body": "`{'@'}nuxtjs/i18n` が有効か確認します。"
         },
         "config": {
           "title": "Config",
@@ -297,41 +297,41 @@
     "email": {
       "seo": {
         "title": "メール · NuxtEdge",
-        "description": "`nuxt-nodemailer` の設定、`sendMail` パラメータ、環境変数での secret 上書きをまとめたガイドです。"
+        "description": "`nuxt-nodemailer` の設定、`sendMail`、env override をまとめています。"
       },
       "hero": {
         "kicker": "nuxt-nodemailer",
         "title": "メール",
-        "lead": "`nuxt-nodemailer` をあらかじめ入れた状態で、サーバーランタイムからトランザクションメールを送信します。このページでは設定キー、`sendMail` の引数、実際の通知フローを組む前に必要な env override を説明します。"
+        "lead": "SMTP でトランザクションメールを送ります。"
       },
       "sections": {
         "configureTransporter": {
           "title": "1. トランスポーターを設定する",
           "badge": "nuxt.config.ts",
-          "body": "`nuxt.config.ts` にはすでに `nodemailer` ブロックがあります。例の値をプロバイダの認証情報に置き換えてください。module は、設定に存在するキーだけを env で上書きできるので、構造はそのまま残してください。"
+          "body": "`nuxt.config.ts` の `nodemailer` にある例の値をプロバイダの認証情報へ置き換えます。env で上書きできるのは設定にあるキーだけなので、構造は残してください。"
         },
         "sendMailParams": {
           "title": "2. `sendMail` の引数を設定する",
           "badge": "server-only",
-          "body": "`useNodeMailer()` は server route、server action、または他の server-only コンテキスト内で使います。`sendMail()` は Nuxt の設定から `from` を自動で継承するので、多くの場合は宛先と本文だけで十分です。"
+          "body": "`useNodeMailer()` は server route や server-only の処理で使います。`sendMail()` は `from` を自動継承するので、多くの場合は宛先と本文だけで足ります。"
         },
         "envOverrides": {
           "title": "3. env vars で secret を上書きする",
           "badge": "deployment",
-          "body": "secret や本番専用の値は env vars を使うのが基本です。各 override は `NUXT_NODEMAILER_` で始め、パスは大文字にします。ネストしたキーはアンダースコアでフラットになります。"
+          "body": "secret や本番用の値は env vars で管理します。override は `NUXT_NODEMAILER_` で始め、パスは大文字にします。ネストしたキーはアンダースコアでつなぎます。"
         },
         "recommendation": {
           "title": "4. 推奨プロバイダ",
           "badge": "recommended",
           "body": {
             "before": "トランザクションメールは",
-            "after": "から始めるのがおすすめです。開発体験がよく、配信品質も高く、API key の管理も分かりやすいです。純粋な SMTP の互換性を優先するなら、Postmark、Mailgun、Mailtrap もこのテンプレートに合います。"
+            "after": "がおすすめです。設定が分かりやすく、配信品質も安定しています。SMTP 互換性を重視するなら Postmark、Mailgun、Mailtrap でも問題ありません。"
           },
           "baseline": {
             "label": "基本設定:",
             "secretPrefix": "実際の secret は"
           },
-          "footer": "今はドキュメント中心で十分です。将来的にはセットアップ検証やテスト送信エンドポイントを追加できます。"
+          "footer": "まずはドキュメント中心で十分です。必要なら後で設定検証やテスト送信を追加できます。"
         }
       },
       "tableHeaders": {
@@ -358,19 +358,19 @@
     "blob": {
       "seo": {
         "title": "Blob Storage · NuxtEdge",
-        "description": "NuxtHub Blob で自動 CDN キャッシュとグローバル配信を使ってファイルをアップロード・配信します。"
+        "description": "NuxtHub Blob でファイルをアップロードし、CDN キャッシュ付きで配信します。"
       },
       "title": "Blob Storage",
       "lead": {
-        "beforeCode": "自動 CDN キャッシュ付きでファイルをアップロード・配信できます。基盤は",
-        "afterCode": "で、Cloudflare R2 に保存してグローバルなエッジ配信を行います。"
+        "beforeCode": "CDN キャッシュ付きでファイルをアップロード・配信します。基盤は",
+        "afterCode": "で、Cloudflare R2 に保存してグローバル配信します。"
       },
       "upload": {
         "label": "ここに画像をドロップ",
-        "description": "PNG、JPG、WebP を 8MB までアップロードできます。クリックして選択するか、ドラッグ&ドロップしてください。",
+        "description": "PNG、JPG、WebP を 8MB まで。クリックまたはドラッグ&ドロップで追加できます。",
         "button": "画像をアップロード",
         "selectedFileHint": {
-          "beforeCode": "選択したファイルは",
+          "beforeCode": "ファイルは",
           "afterCode": "経由で R2 にアップロードされます。"
         }
       },
@@ -390,41 +390,41 @@
       },
       "empty": {
         "title": "画像はまだありません",
-        "description": "上のフォームから最初の画像をアップロードして、Cloudflare R2 に保存してください。"
+        "description": "最初の画像をアップロードして Cloudflare R2 に保存してください。"
       },
       "infoCards": [
         {
           "icon": "i-lucide-zap",
           "title": "エッジ CDN",
-          "text": "最寄りの Cloudflare PoP から配信されます。世界 300 以上のロケーションに対応します。"
+          "text": "最寄りの Cloudflare PoP から配信されます。300 以上のロケーションに対応します。"
         },
         {
           "icon": "i-lucide-shield",
           "title": "既定で安全",
-          "text": "CSP ヘッダーが自動で適用されます。R2 バケットへ直接アクセスする必要はありません。"
+          "text": "CSP ヘッダーは自動適用です。R2 バケットへ直接アクセスする必要はありません。"
         },
         {
           "icon": "i-lucide-infinity",
           "title": "サイズ制限なし",
-          "text": "小さな設定ファイルから大きな動画アセットまで、エッジに保存できます。"
+          "text": "小さな設定ファイルから大きな動画まで保存できます。"
         }
       ]
     },
     "cache": {
       "seo": {
         "title": "Cache · NuxtEdge",
-        "description": "TTL、キャッシュヒット、リクエスト履歴を使って Nitro のレスポンスキャッシュを確認できます。"
+        "description": "TTL、キャッシュヒット、履歴で Nitro のレスポンスキャッシュを確認できます。"
       },
       "title": "Cache",
       "lead": {
-        "beforeBadge": "設定可能な TTL を持つ Nitro のレスポンスキャッシュです。このエンドポイントは",
-        "afterBadge": "でキャッシュされます。リクエストごとに値が同じままか、TTL 後に更新されるかを確認してください。"
+        "beforeBadge": "このエンドポイントは Nitro で",
+        "afterBadge": "キャッシュされます。値が同じままか、TTL 後に変わるかを確認してください。"
       },
       "ttlLabel": "5 秒",
       "demo": {
         "title": "ライブキャッシュデモ",
         "ttlBadge": "TTL: 5 秒",
-        "idle": "ボタンを押して最初のリクエストを送信してください",
+        "idle": "最初のリクエストを送ってください",
         "loading": "エッジから取得中...",
         "cachedAt": "キャッシュ時刻",
         "responseTime": "応答時間",
@@ -432,7 +432,7 @@
         "fetchButton": "/api/cached を取得",
         "note": {
           "beforeCode": "",
-          "afterCode": "は 5 秒以内なら同じ値のままです。これがキャッシュです。TTL を過ぎると新しいランダム値が計算されます。"
+          "afterCode": "は 5 秒間同じです。TTL を過ぎると新しいランダム値に変わります。"
         }
       },
       "status": {
@@ -452,35 +452,35 @@
         {
           "icon": "i-lucide-clock",
           "title": "cachedEventHandler",
-          "desc": "任意の Nitro ハンドラを自動レスポンスキャッシュで包みます。TTL、キャッシュキー、グループに対応します。"
+          "desc": "Nitro ハンドラにレスポンスキャッシュを付けます。TTL、キャッシュキー、グループに対応します。"
         },
         {
           "icon": "i-lucide-refresh-cw",
           "title": "Stale-while-revalidate",
-          "desc": "古いデータを即座に返しつつ、裏で更新します。ユーザー待ち時間はありません。"
+          "desc": "古いデータをすぐ返しつつ、裏で更新します。"
         },
         {
           "icon": "i-lucide-key",
           "title": "キャッシュ無効化",
-          "desc": "キャッシュグループ単位で細かく制御できます。特定のルートや機能群をまとめて無効化できます。"
+          "desc": "特定ルートや機能単位でキャッシュを無効化できます。"
         }
       ]
     },
     "db": {
       "seo": {
         "title": "Database · NuxtEdge",
-        "description": "シンプルな CRUD デモとスキーマ表示で、エッジ上の SQLite データを管理します。"
+        "description": "CRUD デモとスキーマ表示で、エッジ上の SQLite を確認できます。"
       },
       "title": "Database",
-      "lead": "エッジ上の SQLite データベースに対して、完全な CRUD を利用できます。任意の SQL データベースにも対応します。",
+      "lead": "エッジ SQLite で CRUD を試せます。同じ流れで他の SQL データベースにも対応できます。",
       "migrations": {
         "title": "マイグレーションに関する注意",
         "d1": {
-          "beforeCode": "Cloudflare D1 では、CI にデータベース接続がないため build 中にマイグレーションを実行できません。",
-          "afterCode": "をローカルで実行するか、デプロイ前にマイグレーションを適用する CI ステップを追加してください。"
+          "beforeCode": "Cloudflare D1 では、CI に DB 接続がないため build 中にマイグレーションできません。",
+          "afterCode": "をローカルで実行するか、デプロイ前に CI で適用してください。"
         },
-        "external": "Postgres や MySQL などの外部データベースでは、開発時および build 時にデータベース接続が利用できれば、マイグレーションは自動適用されます。",
-        "autoIntro": "次のタイミングではマイグレーションが自動適用されます:",
+        "external": "Postgres や MySQL などの外部 DB では、dev と build で接続できれば自動適用されます。",
+        "autoIntro": "次のタイミングで自動適用されます:",
         "autoItems": {
           "dev": {
             "beforeCode": "開発サーバーを起動するとき (",
@@ -541,21 +541,21 @@
     "kv": {
       "seo": {
         "title": "KV Store · NuxtEdge",
-        "description": "NuxtHub KV にリダイレクトルールを保存し、Nitro ミドルウェアでエッジから適用します。"
+        "description": "NuxtHub KV にリダイレクトルールを保存し、Nitro ミドルウェアで適用します。"
       },
       "title": "KV Store",
       "lead": {
-        "beforeCode": "KV は、リダイレクト、フラグ、アプリ設定のような小さく高速な読み取りに向いています。このデモでは",
-        "afterCode": "にリダイレクトルールを保存し、Nitro がリクエスト時に適用できるようにしています。"
+        "beforeCode": "KV はリダイレクト、フラグ、アプリ設定のような小さく高速な読み取り向けです。このデモでは",
+        "afterCode": "にルールを保存し、Nitro が各リクエストで適用します。"
       },
       "editor": {
         "title": "リダイレクトルール",
-        "badge": "KV で管理 · Nitro で適用",
+        "badge": "KV に保存 · Nitro で適用",
         "empty": "リダイレクトルールはまだありません。下から追加してください。",
         "addLabel": "ルールを追加",
         "fromPlaceholder": "/old-path",
         "toPlaceholder": "/new-path",
-        "footerNote": "変更は次のリクエストから Nitro ミドルウェアで反映されます。",
+        "footerNote": "変更は次のリクエストから反映されます。",
         "saveButton": "KV に保存"
       },
       "toast": {
@@ -567,17 +567,17 @@
           {
             "n": "1",
             "title": "KV に保存",
-            "desc": "リダイレクトルールは NuxtEdge KV に JSON オブジェクトとして保存されます。hubKV().set() を使います。"
+            "desc": "hubKV().set() でリダイレクトルールを JSON として保存します。"
           },
           {
             "n": "2",
             "title": "Nitro ミドルウェア",
-            "desc": "サーバーミドルウェアが毎リクエスト KV ストアを読み、パスを照合します。"
+            "desc": "ミドルウェアが毎リクエスト KV を読み、パスを照合します。"
           },
           {
             "n": "3",
             "title": "エッジリダイレクト",
-            "desc": "一致したリクエストは sendRedirect() で転送されます。オリジンへの到達は不要です。"
+            "desc": "一致したリクエストは sendRedirect() で転送され、オリジンには届きません。"
           }
         ]
       }
