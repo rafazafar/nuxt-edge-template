@@ -13,6 +13,7 @@
       "blob": "Blob",
       "kv": "KV ストア",
       "cache": "キャッシュ",
+      "security": "Security",
       "email": "メール",
       "i18n": "i18n"
     }
@@ -59,6 +60,11 @@
         "title": "キャッシュ",
         "description": "TTL、stale-while-revalidate、ルート単位の無効化を備えた Nitro の組み込みキャッシュ。設定不要です。",
         "badge": "ゼロ設定"
+      },
+      "security": {
+        "title": "Security",
+        "description": "`nuxt-security` でヘッダー、CSP、ルート単位の保護を追加します。",
+        "badge": "導入済み"
       },
       "i18n": {
         "title": "国際化",
@@ -353,6 +359,32 @@
         "text": "HTML を表示しないクライアント向けの推奨テキストです。",
         "html": "任意のリッチな HTML 本文です。",
         "from": "通常は省略します。module が設定から継承します。"
+      }
+    },
+    "security": {
+      "seo": {
+        "title": "Security · NuxtEdge",
+        "description": "`nuxt-security` のヘッダー設定、CSP、ルート単位の制御をまとめています。"
+      },
+      "title": "Security",
+      "lead": {
+        "beforeCode": "追加済みの",
+        "afterCode": "で、セキュアなヘッダー、CSP、ルート単位のポリシー制御を使えます。"
+      },
+      "button": "nuxt-security docs",
+      "sections": {
+        "headers": {
+          "title": "Headers",
+          "body": "まずは既定のヘッダーを使い、必要な箇所だけを調整します。"
+        },
+        "csp": {
+          "title": "CSP",
+          "body": "script、style、embed が必要なときだけ許可を追加し、全体を緩めすぎないようにします。"
+        },
+        "routeRules": {
+          "title": "Route rules",
+          "body": "プレビュー、埋め込み、管理画面などは必要なルートだけ設定を緩めます。"
+        }
       }
     },
     "blob": {

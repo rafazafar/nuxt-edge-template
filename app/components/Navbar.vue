@@ -81,6 +81,7 @@ const navItems = computed<NavigationMenuItem[]>(() => [
   { label: t("nav.items.blob"), to: localePath("/docs/blob"), icon: "i-lucide-image" },
   { label: t("nav.items.kv"), to: localePath("/docs/kv"), icon: "i-lucide-key-round" },
   { label: t("nav.items.cache"), to: localePath("/docs/cache"), icon: "i-lucide-zap" },
+  // { label: t("nav.items.security"), to: localePath("/docs/security"), icon: "i-lucide-shield" },
   { label: t("nav.items.email"), to: localePath("/docs/email"), icon: "i-lucide-mail" },
   { label: t("nav.items.i18n"), to: localePath("/docs/i18n"), icon: "i-lucide-languages" },
 ])

@@ -13,6 +13,7 @@
       "blob": "Blob",
       "kv": "KV Store",
       "cache": "Cache",
+      "security": "Security",
       "email": "Email",
       "i18n": "i18n"
     }
@@ -59,6 +60,11 @@
         "title": "Cache",
         "description": "Built-in Nitro caching with TTL, stale-while-revalidate, and per-route invalidation. Zero config.",
         "badge": "Zero-config"
+      },
+      "security": {
+        "title": "Security",
+        "description": "Headers, CSP, and route-level hardening with `nuxt-security`.",
+        "badge": "Installed"
       },
       "i18n": {
         "title": "Internationalization",
@@ -349,6 +355,32 @@
         "text": "Recommended for clients that do not render HTML.",
         "html": "Optional rich HTML email body.",
         "from": "Usually omit this because the module inherits it from config."
+      }
+    },
+    "security": {
+      "seo": {
+        "title": "Security · NuxtEdge",
+        "description": "Use `nuxt-security` for headers, CSP, and route-level security rules."
+      },
+      "title": "Security",
+      "lead": {
+        "beforeCode": "Add",
+        "afterCode": "for secure headers, CSP, and route-level policy controls."
+      },
+      "button": "nuxt-security docs",
+      "sections": {
+        "headers": {
+          "title": "Headers",
+          "body": "Start with the default headers and tighten only where the app needs it."
+        },
+        "csp": {
+          "title": "CSP",
+          "body": "Allow scripts, styles, or embeds explicitly instead of widening policy globally."
+        },
+        "routeRules": {
+          "title": "Route rules",
+          "body": "Relax settings per route for previews, embeds, or admin screens when needed."
+        }
       }
     },
     "blob": {

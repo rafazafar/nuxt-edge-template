@@ -10,6 +10,13 @@ describe('home page', () => {
     expect(component.html()).toContain('/docs/ai-sdk')
   })
 
+  it('includes the Security feature card', async () => {
+    const component = await mountSuspended(HomePage)
+
+    expect(component.text()).toContain('Security')
+    expect(component.html()).toContain('/docs/security')
+  })
+
   it('keeps terminal prompts primary and muted lines semantic', async () => {
     const component = await mountSuspended(HomePage)
     const html = component.html()

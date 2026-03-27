@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@nuxtjs/seo",
     "nuxt-nodemailer",
     "@nuxtjs/i18n",
+    // "nuxt-security",
   ],
   devtools: { enabled: true },
   compatibilityDate: "2026-03-18",
@@ -17,9 +18,13 @@ export default defineNuxtConfig({
     preset: "cloudflare_module",
   },
 
+  site: {
+    name: 'Nuxt Edge Template',
+  },
+
   // SMTP EMAIL
   nodemailer: {
-    from: '"Universal Web Template" <no-reply@example.com>',
+    from: '"Nuxt Edge Template" <no-reply@example.com>',
     host: "smtp.example.com",
     port: 587,
     secure: false,
@@ -31,7 +36,7 @@ export default defineNuxtConfig({
 
   i18n: {
     defaultLocale: "ja",
-    baseUrl: "https://cis-internal.org",
+    baseUrl: "https://nuxt-edge-template.zafar.dev",
     strategy: "prefix_except_default",
     locales: [
       { code: "ja", name: "日本語", language: "ja-JP", file: "ja.json" },
