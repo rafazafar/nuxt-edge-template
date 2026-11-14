@@ -51,9 +51,31 @@ export default defineNuxtConfig({
     cache: true
   },
 
-  routeRules:{
-    '*': { swr: true, prerender: true },
-    '/docs/**': { swr: true },
+  // Cache only known page routes with a long SWR TTL.
+  // The previous global `*`: { swr: true, prerender: true } wrote every
+  // scanner 404 (e.g. /.env) into the NuxtHub CACHE KV namespace and
+  // pushed Free-plan KV writes over the 50% daily alert (500/1,000).
+  routeRules: {
+    "/": { swr: 3600, prerender: true },
+    "/en": { swr: 3600, prerender: true },
+    "/docs/agents": { swr: 3600, prerender: true },
+    "/docs/ai-sdk": { swr: 3600, prerender: true },
+    "/docs/blob": { swr: 3600, prerender: true },
+    "/docs/cache": { swr: 3600, prerender: true },
+    "/docs/db": { swr: 3600, prerender: true },
+    "/docs/email": { swr: 3600, prerender: true },
+    "/docs/i18n": { swr: 3600, prerender: true },
+    "/docs/kv": { swr: 3600, prerender: true },
+    "/docs/security": { swr: 3600, prerender: true },
+    "/en/docs/agents": { swr: 3600, prerender: true },
+    "/en/docs/ai-sdk": { swr: 3600, prerender: true },
+    "/en/docs/blob": { swr: 3600, prerender: true },
+    "/en/docs/cache": { swr: 3600, prerender: true },
+    "/en/docs/db": { swr: 3600, prerender: true },
+    "/en/docs/email": { swr: 3600, prerender: true },
+    "/en/docs/i18n": { swr: 3600, prerender: true },
+    "/en/docs/kv": { swr: 3600, prerender: true },
+    "/en/docs/security": { swr: 3600, prerender: true },
   },
 
   // DO NOT EDIT BELOW THIS LINE unless you know what you are doing.

@@ -448,7 +448,7 @@
         "beforeBadge": "This endpoint is cached with Nitro for",
         "afterBadge": ". Watch the value stay the same, then change after the TTL expires."
       },
-      "ttlLabel": "5 seconds",
+      "ttlLabel": "1 hour",
       "demo": {
         "title": "Live Cache Demo",
         "ttlBadge": "TTL: 5s",
