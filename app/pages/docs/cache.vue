@@ -122,7 +122,7 @@ function timeAgo(ts: number) {
       <div class="rounded-lg border dark:border-zinc-800 border-zinc-200 border-l-2 border-l-rose-500 dark:bg-zinc-900 bg-zinc-100 px-4 py-3 font-mono text-sm leading-loose text-muted">
         <span class="text-violet-400">export default</span> <span class="text-primary">cachedEventHandler</span>(<span class="text-violet-400">async</span> (event) => {<br>
         &nbsp;&nbsp;<span class="text-violet-400">return</span> { cachedAt: <span class="text-primary">Date</span>.now(), value: <span class="text-primary">Math.random</span>() }<br>
-        }, { maxAge: <span class="text-amber-400">5</span> }) <span class="text-zinc-600">// seconds</span>
+        }, { maxAge: <span class="text-amber-400">3600</span> }) <span class="text-zinc-600">// seconds</span>
       </div>
     </div>
 

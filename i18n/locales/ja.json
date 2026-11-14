@@ -452,7 +452,7 @@
         "beforeBadge": "このエンドポイントは Nitro で",
         "afterBadge": "キャッシュされます。値が同じままか、TTL 後に変わるかを確認してください。"
       },
-      "ttlLabel": "5 秒",
+      "ttlLabel": "1 時間",
       "demo": {
         "title": "ライブキャッシュデモ",
         "ttlBadge": "TTL: 5 秒",

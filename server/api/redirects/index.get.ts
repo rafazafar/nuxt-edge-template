@@ -1,5 +1,5 @@
-import { kv } from 'hub:kv'
+import { getRedirects } from '../../utils/redirects'
 
 export default eventHandler(async () => {
-  return (await kv.get<RedirectMap>('redirects')) || {}
+  return (await getRedirects()) || {}
 })

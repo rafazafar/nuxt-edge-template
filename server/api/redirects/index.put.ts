@@ -1,10 +1,10 @@
-import { kv } from 'hub:kv'
+import { setRedirects } from '../../utils/redirects'
 
 export default eventHandler(async (event) => {
   const body = await readValidatedBody(event, RedirectMapSchema.parse)
 
   // Used in server/middleware/redirects.ts
-  await kv.set('redirects', body)
+  await setRedirects(body)
 
   return body
 })

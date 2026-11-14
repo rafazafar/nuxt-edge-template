@@ -7,5 +7,6 @@ export default cachedEventHandler( async () => {
     value: Math.random(),
   }
 }, {
-  maxAge: 5, 
+  // Lengthened from 5s so the live demo cannot burn KV writes in production.
+  maxAge: 3600,
 })
